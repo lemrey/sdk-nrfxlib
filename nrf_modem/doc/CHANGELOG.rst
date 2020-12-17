@@ -9,6 +9,18 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 1.0.0
+***************
+
+* Added support for full modem firmware updates.
+* Added support for configuring the size and location of the shared memory area.
+* Switched to an external memory allocator, provided by the glue.
+* Added a macro to retrieve the library version.
+* Added a function to retrieve the library build version.
+* Return POSIX error codes in :c:func:`nrf_getaddrinfo()`.
+* Fixed an issue where :c:func:`nrf_poll()` would incorrectly report `NRF_POLLERR`.
+* Fixed an issue where :c:func:`nrf_getsockopt()` called with `NRF_SO_PDN_STATE` would incorrectly set errno.
+
 nrf_modem 0.8.99
 ****************
 

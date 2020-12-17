@@ -24,7 +24,7 @@ Arrows indicate that the elements can communicate with each other directly.
 Creating the OS abstraction layer
 *********************************
 
-To create an OS abstraction layer for the Modem library, you must implement a number of functions in the :file:`nrf_modem_os.c` file.
+To create an OS abstraction layer for the Modem library, you must implement the functions in the :file:`nrf_modem_os.h` file.
 
 nrf_modem_os_init
 ~~~~~~~~~~~~~~~~~
@@ -41,7 +41,7 @@ If Nordic Proprietary trace is enabled, the medium for where to forward the trac
 *Required actions*:
 
 * Initialize timers/threads.
-* Configure low priority libdemom scheduling IRQ (SoftIRQ).
+* Configure low priority libmodem scheduling IRQ (SoftIRQ).
 * Configure low priority trace scheduling IRQ (SoftIRQ).
 * Configure medium for trace (UART/SPI etc.).
 
@@ -56,6 +56,28 @@ A blind return value of 0 will make all Modem library operations always blocking
 * Start counting the time (this can be based on a Timer or Thread for instance).
 * Report back the remaining time of the timer if the specific timer is interrupted.
 * If timed out, report NRF_ETIMEDOUT.
+
+nrf_modem_os_alloc
+~~~~~~~~~~~~~~~~~~
+
+This function is called by the library to allocate memory dynamically, similarly to a `malloc` call.
+There are no specific requirements as to where to allocate this memory in RAM.
+
+nrf_modem_os_free
+~~~~~~~~~~~~~~~~~
+
+This function should free the memory allocated by `nrf_modem_os_alloc`.
+
+nrf_modem_os_shm_tx_alloc
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This function is called by the library to dynamically allocate memory *to be shared with modem core*.
+This function shall allocate memory on the TX memory region that is passed to the function in :c:func:`nrf_modem_init()` during initialization.
+
+nrf_modem_os_shm_tx_free
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This function should free the memory allocated by :c:func:`nrf_modem_os_shm_tx_alloc()`.
 
 nrf_modem_os_errno_set
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -131,15 +153,8 @@ Other scenarios to handle in nrf_modem_os.c
 Memory
 ******
 
-The Modem library must have a region of absolute positioned RAM.
-The region must be configured as non-secure RAM by the secure application.
-The starting address of this region must be 0x20010000, and the size of the block is 0xC020 bytes.
-
-The secure domain memory is divided into segments of 8 KB RAM blocks.
-Because the size of the Modem library block is 0xC020 bytes, it is not aligned to full 8 KB blocks.
-It occupies six blocks and a small part of a seventh block.
-
-The leftover memory in that seventh block (8160 bytes, starting at address 0x2001 c020) is configured as non-secure, but it can be used by the application.
+The Modem library needs a region of RAM within the first lower 128KB to share with the modem.
+In order to be accessible by both the Modem and the Application, that region of RAM must be configured as non-secure by the secure application.
 
 The following RAM overview diagram shows where in the sequential RAM the Modem library must be positioned, and also indicates the important memory position values. The dotted lines represent 8 KB memory blocks. Note that the Modem library occupies more than six full blocks.
 
