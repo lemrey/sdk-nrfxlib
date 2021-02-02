@@ -19,7 +19,7 @@ Shared memory configuration
 ###########################
 
 The Modem library implements a communication between the application core and the modem core using a shared memory area to exchange data.
-The shared memory area may be located anywhere within the first 128 kilobytes of RAM (lowest addresses) and is logically divided in four regions: Control, TX, RX and Trace.
+The shared memory area may be located anywhere within the first 128 kilobytes of RAM (lowest addresses) and is logically divided in to four regions: Control, TX, RX and Trace.
 The size and location of these regions are configurable and are accepted by the library as a parameter to @ref nrf_modem_init via the @c shmem parameter.
 The application can adjust the size of these region based on its requirements to minimize the library's RAM requirements.
 
