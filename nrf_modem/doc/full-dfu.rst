@@ -11,6 +11,8 @@ Memory Requirements
 *******************
 
 The total size of all shared memory regions must be at least 8220 bytes.
+This is because programming requires 8 kB data buffer and some storage for
+structures used in RPC communication.
 @note:
 When using NCS, library initialization is done via the glue, which will configure the library shared memory regions' size and position in RAM.
 Use the Kconfig options belonging to the glue to ensure that the total size of the library shared memory region is as large as necessary.
@@ -110,4 +112,11 @@ When all segments have been written, you must call::
 
 Verification
 ~~~~~~~~~~~~
-TODO.
+
+To verify the content of the modem flash, use::
+	nrf_modem_full_dfu_digest(uint32_t addr, uint32_t size,
+			     struct nrf_modem_full_dfu_digest *digest_buffer);
+
+That function calculates SHA-256 hash over given FLASH area. Hash can
+then be compared to precalculated value, received with the modem firmware
+package, to ensure that the image is programmed succesfully.
