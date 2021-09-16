@@ -8,8 +8,6 @@ In addition to the standard socket API, the Modem library supports several exten
 Extensions are available for:
 
 * Packet data network (PDN) management
-* Assisted GPS (A-GPS)
-* Global Navigation Satellite System (GNSS)
 * Modem device firmware update (DFU)
 * AT commands
 
@@ -20,4 +18,3 @@ Extensions are available for:
 
    pdn_extension
    at_socket
-   gnss_extension
