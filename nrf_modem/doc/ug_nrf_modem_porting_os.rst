@@ -136,12 +136,12 @@ This function puts the trace string to the desired medium, typically UART.
 However, the medium used to forward and store the traces is up to the implementation and must be initialized correctly before using.
 If you are not interested in traces, they can be ignored, and this function can be empty and simply return.
 
-nrf_modem_os_application_irq_handler
+nrf_modem_application_irq_handler
 ====================================
 
 This function is implemented in the Modem library and must be called upon the low priority Modem library IRQ handler, triggered by the :c:func:`nrf_modem_os_application_irq_set` function.
 
-nrf_modem_os_trace_irq_handler
+nrf_modem_trace_irq_handler
 ==============================
 
 This function is implemented in the Modem library and must be called upon the low priority trace IRQ handler, triggered by the :c:func:`nrf_modem_os_trace_irq_set` function.
@@ -287,7 +287,7 @@ You can use it as a template and customize it for your OS or scheduler.
    }
 
    void NRF_MODEM_APPLCAITON_IRQ_HANDLER(void) {
-       nrf_modem_os_application_irq_handler();
+       nrf_modem_application_irq_handler();
    }
 
    void nrf_modem_os_trace_irq_set(void) {
@@ -299,7 +299,7 @@ You can use it as a template and customize it for your OS or scheduler.
    }
 
    void TRACE_IRQ_HANDLER(void) {
-       nrf_modem_os_trace_irq_handler();
+       nrf_modem_trace_irq_handler();
    }
 
    int32_t nrf_modem_os_trace_put(const uint8_t * const p_buffer, uint32_t buf_len) {
