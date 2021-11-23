@@ -9,6 +9,10 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 1.5.0
+
+* Added support for deferred processing of modem traces. The :c:func:`nrf_modem_trace_processed_callback` function must now be called by the application each time a trace is received via the :c:func:`nrf_modem_os_trace_put` function.
+
 nrf_modem 1.4.1
 ***************
 
