@@ -134,8 +134,10 @@ nrf_modem_os_trace_put
 
 This function puts the trace string to the desired medium, typically UART.
 However, the medium used to forward and store the traces is up to the implementation and must be initialized correctly before using.
-Once the traces are processed/stored, the :c:func:`nrf_modem_trace_processed_callback` must called.
+Once the traces are processed/stored, the :c:func:`nrf_modem_trace_processed_callback` must be called.
 If you are not interested in traces you only need to ensure that :c:func:`nrf_modem_trace_processed_callback` is called for each received trace.
+Until the :c:func:`nrf_modem_trace_processed_callback` is called, the Modem library will not free up the memory allocated for that trace in the trace memory area.
+Since the modem uses this trace memory area to send traces, not calling :c:func:`nrf_modem_trace_processed_callback` may lead to lost modem traces.
 
 nrf_modem_application_irq_handler
 =================================
