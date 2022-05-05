@@ -53,11 +53,27 @@ nrf_modem_os_timedwait
 This function is called by the Modem library when a timed context or sleep is required.
 A blind return value of 0 will make all the Modem library operations always blocking.
 
+Note: Calls to :c:func:`nrf_modem_os_timedwait` must be able to enter a waiting state regardless of the modem library and modem OS initialization status. Hence, it must be possible to call :c:func:`nrf_modem_os_timedwait` before any call to :c:func:`nrf_modem_os_init`. To ensure that all waiting threads are woken on :c:func:`nrf_modem_event_notify`, the waiting threads must not be cleared on :c:func:`nrf_modem_os_init` or :c:func:`nrf_modem_os_shutdown`.
+
 *Required actions* to make the operations non-blocking:
 
 * Start counting the time (this can be based on a Timer or Thread for instance).
-* Report back the remaining time of the timer if the specific timer is interrupted.
-* If timed out, report NRF_ETIMEDOUT.
+* In the case of a call to :c:func:`nrf_modem_os_event_notify` all waiting threads should wake up, reporting back the remaining time of the timer through the :c:var:`timeout` variable.
+
+*Function return value* is decided by the following:
+* If the modem is not initialized, that is if :c:func:`nrf_modem_is_initialized` return false, return -NRF_ESHUTDOWN.
+* If timed out, return -NRF_ETIMEDOUT.
+* Else return 0.
+
+nrf_modem_os_event_notify
+=========================
+
+This function is called by the Modem library when an Event occour and all threads waiting in :c:func:`nrf_modem_os_timedwait` should wake up.
+
+*Required action*:
+
+* Wake all threads that are sleeping in :c:func:`nrf_modem_os_timedwait`. For details, see :c:func:`nrf_modem_os_timedwait`.
+
 
 nrf_modem_os_alloc
 ==================
@@ -291,6 +307,11 @@ You can use it as a template and customize it for your OS or scheduler.
         // A blind return value of 0 will make all Modem library operations
         // always block.
         return 0;
+    }
+
+    void nrf_modem_os_event_notify()
+    {
+      // Wake threads in nrf_modem_os_timedwait()
     }
 
     void nrf_modem_os_errno_set(int errno_val) {
