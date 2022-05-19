@@ -9,6 +9,14 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 2.1.0
+***************
+
+* Replaced :c:func:`nrf_modem_os_trace_put` with :c:func:`nrf_modem_trace_get`. The application is now responsible for polling the trace data.
+  This removes the need for a trace heap, removing :c:func:`nrf_modem_os_trace_alloc` and :c:func:`nrf_modem_os_trace_free`.
+* Removed the trace interlayer signalling (EGU2).
+  This removes :c:func:`nrf_modem_os_trace_irq_clear`, :c:func:`nrf_modem_os_trace_irq_set`, :c:func:`nrf_modem_os_trace_irq_enable`, :c:func:`nrf_modem_os_trace_irq_disable` and :c:func:`nrf_modem_trace_irq_handler`.
+
 nrf_modem 1.5.2
 ***************
 

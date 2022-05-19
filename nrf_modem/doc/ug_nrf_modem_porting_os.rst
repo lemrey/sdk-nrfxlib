@@ -30,22 +30,18 @@ nrf_modem_os_init
 =================
 
 This function is called by the Modem library when the application has issued :c:func:`nrf_modem_init`.
-It is responsible for preparing IRQ for low priority Modem library scheduling and trace scheduling.
+It is responsible for preparing an IRQ for low priority Modem library scheduling and, if enabled, preparing a thread for trace handling.
 
 .. note::
    When working with an application based on Zephyr, set the IRQs to a low priority (6 or 7) and enable them before exiting the function.
 
 The function must also initialize the timers and threads (if there is a context that needs a timeout).
-If Nordic Proprietary trace is enabled, the library generates trace data and forwards it to a medium that can be initialized or configured by using the :c:func:`nrf_modem_os_init` function.
-The forwarded trace data is handled in the :c:func:`nrf_modem_os_trace_put` function.
-See :ref:`trace_output_function` for more information.
 
 *Required actions*:
 
 * Initialize timers/threads.
 * Configure low priority Modem library scheduling IRQ (SoftIRQ).
-* Configure low priority trace scheduling IRQ (SoftIRQ).
-* Configure medium for trace (for example, UART or SPI).
+* Configure trace medium (for example, UART, RTT or SPI).
 
 nrf_modem_os_timedwait
 ======================
@@ -109,45 +105,10 @@ This function is called by the Modem library when the library wants to set a pen
 
 * Set a pending IRQ on the low priority Modem library scheduling IRQ using OS primitives or NVIC functions.
 
-nrf_modem_os_trace_irq_clear
-============================
-
-This function is called by the Modem library when the library wants to clear IRQ on the low priority trace scheduling IRQ.
-
-*Required action*:
-
-* Clear the low priority trace scheduling IRQ using OS primitives or NVIC functions.
-
-nrf_modem_os_trace_irq_set
-==========================
-
-This function is called by the Modem library when the library wants to set a pending IRQ on the low priority trace scheduling IRQ.
-
-*Required action*:
-
-* Set a pending IRQ on the low priority trace scheduling IRQ using OS primitives or NVIC functions.
-
-.. _trace_output_function:
-
-nrf_modem_os_trace_put
-======================
-
-This function puts the trace string to the desired medium, typically UART.
-However, the medium used to forward and store the traces is up to the implementation and must be initialized correctly before using.
-Once the traces are processed or stored, the :c:func:`nrf_modem_trace_processed_callback` must be called.
-Even if you do not want the traces further, you need to ensure that :c:func:`nrf_modem_trace_processed_callback` is called for each received trace.
-Until the :c:func:`nrf_modem_trace_processed_callback` is called, the Modem library do not free up the memory allocated for that trace in the trace memory area.
-Since the modem uses this trace memory area to send traces, not calling the :c:func:`nrf_modem_trace_processed_callback`, leads to losing modem traces.
-
 nrf_modem_application_irq_handler
 =================================
 
 This function is implemented in the Modem library and must be called upon the low priority Modem library IRQ handler, triggered by the :c:func:`nrf_modem_os_application_irq_set` function.
-
-nrf_modem_trace_irq_handler
-===========================
-
-This function is implemented in the Modem library and must be called upon the low priority trace IRQ handler, triggered by the :c:func:`nrf_modem_os_trace_irq_set` function.
 
 nrf_modem_os_log
 ================
@@ -174,8 +135,6 @@ Other scenarios to handle in nrf_modem_os.c
 
 #. In case the OS has its own IRQ handler scheme, which is not directly forwarding the IPC_IRQHandler to the Modem library, this must be routed by the OS.
    The OS must call IPC_IRQHandler() upon all IRQs with IRQ number IPC_IRQn.
-
-#. In :file:`nrf_modem_os.c`, you can configure a desired medium for forwarding the trace data upon :c:func:`nrf_modem_os_trace_put` calls.
 
 Memory
 ******
@@ -205,6 +164,14 @@ If you are using the hard-float variant of the Modem library, the FPU must be ac
 The :file:`nrfx/mdk/system_nrf9160.c` file provides a template on how to configure the FPU in both cases.
 The system file also provides several Errata workarounds specific to the chip variant used, which are needed for any secure domain application.
 
+.. _trace_handling:
+
+Trace Handling
+**************
+If Nordic Proprietary trace is enabled, the library generates trace data that must be processed by the application.
+The trace data is polled by calling the :c:func:`nrf_modem_os_trace_get` function. On success, this fills a structure with the trace header and data.
+The header and data should be processed successively in the selected trace medium (UART/RTT/...), starting with the header before continuing with the trace data from the start of the array.
+Processed data must be freed by calling :c:func:`nrf_modem_trace_processed_callback`.
 
 Message sequence diagrams
 *************************
@@ -271,9 +238,9 @@ You can use it as a template and customize it for your OS or scheduler.
    }
 
    void trace_task_create(void) {
-       NVIC_SetPriority(TRACE_IRQ, TRACE_IRQ_PRIORITY);
-       NVIC_ClearPendingIRQ(TRACE_IRQ);
-       NVIC_EnableIRQ(TRACE_IRQ);
+       // If tracing is enabled, create a task that initializes the trace medium before continously
+       // polling trace data using nrf_modem_trace_get and forwarding it to the selected
+       // trace medium.
    }
 
    void nrf_modem_os_init(void) {
@@ -308,25 +275,4 @@ You can use it as a template and customize it for your OS or scheduler.
 
    void NRF_MODEM_APPLICATION_IRQ_HANDLER(void) {
        nrf_modem_application_irq_handler();
-   }
-
-   void nrf_modem_os_trace_irq_set(void) {
-       NVIC_SetPendingIRQ(TRACE_IRQ);
-   }
-
-   void nrf_modem_os_trace_irq_clear(void) {
-       NVIC_ClearPendingIRQ(TRACE_IRQ);
-   }
-
-   void TRACE_IRQ_HANDLER(void) {
-       nrf_modem_trace_irq_handler();
-   }
-
-   int32_t nrf_modem_os_trace_put(const uint8_t * const p_buffer, uint32_t buf_len) {
-       // Store buffer to chosen medium.
-       // Traces can be dropped if not needed.
-       // Either call nrf_modem_trace_processed_callback() here or at a later point (for example, in a
-       // thread or a work queue handler function).
-       int err = nrf_modem_trace_processed_callback(p_buffer, buf_len);
-       return 0;
    }
