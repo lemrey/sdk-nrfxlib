@@ -9,6 +9,18 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 2.1.0
+***************
+
+* Improvements to AT filters.
+  AT filters now support variable arguments.
+  The :c:member:`paused` is added to the :c:struct:`nrf_modem_at_cmd_filter` structure to pause filters whenever required.
+* Restructured the handling of modem traces.
+  The :c:func:`nrf_modem_os_trace_put` function that was called by the library is replaced with the :c:func:`nrf_modem_trace_get` function that must be called by the application.
+* Minor improvements to networking sockets.
+  :c:func:`nrf_recv` function with the ``NRF_MSG_WAITALL`` flag now returns if the socket is closed.
+  :c:func:`nrf_connect` function now returns an error if the socket is closed.
+
 nrf_modem 2.0.1+b1
 ******************
 
