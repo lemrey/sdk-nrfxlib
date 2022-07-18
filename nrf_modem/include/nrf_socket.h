@@ -164,13 +164,6 @@ typedef int32_t ssize_t;
 #define NRF_SO_SEC_CIPHERSUITE_LIST 6
 
 /** @brief
- * Socket option to retrieve the ciphersuites used during the handshake.
- * Currently unsupported.
- * @sa nrf_sec_cipher_t.
- */
-#define NRF_SO_SEC_CIPHER_IN_USE 7
-
-/** @brief
  * Socket option to set DTLS handshake timeout value.
  * Please see @ref nrf_socket_tls_dtls_handshake_timeouts for allowed values.
  */
@@ -330,8 +323,7 @@ typedef uint16_t nrf_in_port_t;
  *
  * @details For a list of valid values, refer to nrf_socket_families.
  */
-typedef int nrf_socket_family_t;
-typedef nrf_socket_family_t nrf_sa_family_t;
+typedef unsigned int nrf_sa_family_t;
 
 /**
  * @brief IPv6 address.
@@ -398,12 +390,6 @@ struct nrf_sockaddr_in {
 	struct nrf_in_addr sin_addr;
 };
 
-typedef struct nrf_sockaddr nrf_sockaddr_t;
-typedef struct nrf_sockaddr_in6 nrf_sockaddr_in6_t;
-typedef struct nrf_in6_addr nrf_in6_addr;
-typedef struct nrf_in6_addr nrf_in6_addr_t;
-typedef struct nrf_sockaddr_in nrf_sockaddr_in_t;
-
 typedef uint32_t nrf_socklen_t;
 typedef uint32_t nrf_nfds_t;
 
@@ -412,14 +398,14 @@ typedef uint32_t nrf_nfds_t;
  *
  * @details Only provided for API compatibility.
  */
-typedef struct nrf_sockaddr {
+struct nrf_sockaddr {
 	/** Socket address length */
 	uint8_t sa_len;
 	/** Socket address family */
 	int sa_family;
 	/** Socket address */
 	char sa_data[];
-} nrf_sockaddr;
+};
 
 /* Flags for getaddrinfo() hints. */
 
@@ -585,6 +571,7 @@ int nrf_connect(int socket, const struct nrf_sockaddr *address, nrf_socklen_t ad
  *
  * In addition, the function shall return -1 and set the following errno:
  * [NRF_ESHUTDOWN] Modem was shut down.
+ * [NRF_ECANCELED] Operation canceled because of APN rate control.
  */
 ssize_t nrf_send(int socket, const void *buffer, size_t length, int flags);
 
@@ -597,6 +584,7 @@ ssize_t nrf_send(int socket, const void *buffer, size_t length, int flags);
  *
  * In addition, the function shall return -1 and set the following errno:
  * [NRF_ESHUTDOWN] Modem was shut down.
+ * [NRF_ECANCELED] Operation canceled because of APN rate control.
  */
 ssize_t nrf_sendto(int socket, const void *message, size_t length, int flags,
 		   const struct nrf_sockaddr *dest_addr, nrf_socklen_t dest_len);
