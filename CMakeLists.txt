@@ -11,8 +11,8 @@ if (CONFIG_NFC_T2T_NRFXLIB OR
 	add_subdirectory(nfc)
 endif()
 
-add_subdirectory_ifdef(CONFIG_MPSL                    mpsl)
-add_subdirectory_ifdef(CONFIG_NRF_MODEM               nrf_modem)
+#add_subdirectory_ifdef(CONFIG_MPSL                    mpsl)
+#add_subdirectory_ifdef(CONFIG_NRF_MODEM               nrf_modem)
 add_subdirectory_ifdef(CONFIG_NRFXLIB_CRYPTO          crypto)
 add_subdirectory_ifdef(CONFIG_NRF_SECURITY            nrf_security)
 add_subdirectory_ifdef(CONFIG_BT                      softdevice_controller)
