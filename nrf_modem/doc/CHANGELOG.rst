@@ -9,6 +9,18 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 2.2.0
+***************
+
+* Removed the use of the application softIRQ (EGU1).
+* Removed the :c:file:`nrf_modem_platform.h` header.
+* Added support for setting the IPC IRQ priority on initialization.
+* Added a :c:var:`timeout` parameter to the :c:func:`trace_get` function to allow the function to return without trace data.
+* Changed when the ``NRF_MODEM_GNSS_EVT_BLOCKED`` and ``NRF_MODEM_GNSS_EVT_UNBLOCKED`` events are sent. ``NRF_MODEM_GNSS_EVT_BLOCKED`` is only sent when the GNSS is getting no runtime at all.
+* Fixed a bug in :c:func:`nrf_accept` that disallow only one ``NULL`` parameter. Either both :c:var:`address` and :c:var:`address_len` is ``NULL`` or none of the parameters are.
+* The :c:func:`nrf_accept` function will now truncate the output address if the :c:var:`sockaddr` parameter is smaller than the length of the accepted socket address.
+* The :c:func:`nrf_accept` function will now allow up to 7 simultaneous inncoming connections.
+
 nrf_modem 2.1.3
 ***************
 
