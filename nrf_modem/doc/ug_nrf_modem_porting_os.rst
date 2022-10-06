@@ -39,9 +39,8 @@ See :ref:`trace_handling` for more information.
 
 *Required actions*:
 
-* Initialize timers/threads.
-* Configure low priority Modem library scheduling IRQ (SoftIRQ).
 * Initialize heap memory.
+* Initialize timers/threads.
 * If Nordic Proprietary trace is enabled, initialize a trace thread and the trace backend (for example, UART or SPI).
 
 nrf_modem_os_busywait()
@@ -110,24 +109,6 @@ This function translates errnos from the Modem library to the OS-defined ones.
 * Implement a translation for each errno set by the Modem library.
   If it overlaps with errnos of your OS, the translation is not needed.
 
-nrf_modem_os_application_irq_set()
-==================================
-
-This function is called by the Modem library when the library wants to set a pending IRQ on the low priority scheduling IRQ of the Modem library.
-
-*Required action*:
-
-* Set a pending IRQ on the low priority scheduling IRQ of the Modem library using OS primitives or NVIC functions.
-
-nrf_modem_os_application_irq_clear()
-====================================
-
-This function is called by the Modem library when the library wants to clear IRQ on the low priority scheduling IRQ of the Modem library.
-
-*Required action*:
-
-* Clear the low priority scheduling IRQ of the Modem library using OS primitives or NVIC functions.
-
 nrf_modem_os_event_notify()
 ===========================
 
@@ -185,18 +166,6 @@ The Modem library uses the nrfxlib IPC driver.
 The application must either include the nrfxlib IPC driver or implement its own IPC driver using the same signature as the nrfxlib IPC driver.
 
 If the OS has its own IRQ handler scheme that does not directly forward the IPC_IRQHandler, the OS must route the IPC_IRQHandler to the nrfxlib IPC IRQ handler.
-
-.. _application_interrupt:
-
-Application Interrupt
-*********************
-The Modem library receives events from the modem on the high-priority IPC interrupt.
-To continue processing these events on a lower priority, an application interrupt is used.
-The library calls the :c:func:`nrf_modem_os_application_irq_set` function to trigger the interrupt.
-The handler for the low-priority interrupt must then call the :c:func:`nrf_modem_application_irq_handler` function and subsequently wake up all sleeping threads using the :c:func:`nrf_modem_os_event_notify` function.
-
-The abstraction layer decides the implementation of the application interrupt.
-Possible solutions for this are either directly setting an IRQ or using an EGU event.
 
 Memory
 ******
@@ -259,13 +228,6 @@ The following message sequence diagrams show the interactions between the applic
         :alt: Initialization (main thread)
 
         Initialization (main thread)
-
-#. Handling an event sent from the Modem library to a lower priority to be able to receive new events:
-
-    .. figure:: images/nrf_modem_event_sequence.svg
-        :alt: Event handling, lowering priority
-
-        Event handling, lowering priority
 
 #. Handling a timeout or sleep:
 
@@ -386,24 +348,6 @@ You can use it as a template and customize it for your OS or scheduler.
     {
         /* Get a semaphore's count. */
         return 0;
-    }
-
-    void nrf_modem_os_application_irq_set(void)
-    {
-        /* Set the application IRQ. */
-    }
-
-    void nrf_modem_os_application_irq_clear(void)
-    {
-        /* Clear the application IRQ. */
-    }
-
-    void NRF_MODEM_APPLICATION_IRQ_HANDLER(void)
-    {
-        /* Handle application IRQ.
-           Wire this handler up to the application interrupt. */
-        nrf_modem_application_irq_handler();
-        nrf_modem_os_event_notify();
     }
 
     void nrf_modem_os_log(int level, const char *fmt, ...)
