@@ -31,29 +31,29 @@ extern "C" {
 /** Modem firmware update successful.
  * The modem will run the updated firmware on reboot.
  */
-#define MODEM_DFU_RESULT_OK 0x5500001u
+#define NRF_MODEM_DFU_RESULT_OK 0x5500001u
 /** Modem firmware update failed.
  * The modem encountered a fatal internal error during firmware update.
  */
-#define MODEM_DFU_RESULT_INTERNAL_ERROR 0x4400001u
+#define NRF_MODEM_DFU_RESULT_INTERNAL_ERROR 0x4400001u
 /** Modem firmware update failed.
  * The modem encountered a fatal hardware error during firmware update.
  */
-#define MODEM_DFU_RESULT_HARDWARE_ERROR 0x4400002u
+#define NRF_MODEM_DFU_RESULT_HARDWARE_ERROR 0x4400002u
 /** Modem firmware update failed, due to an authentication error.
  * The modem will automatically run the previous (non-updated)
  * firmware on reboot.
  */
-#define MODEM_DFU_RESULT_AUTH_ERROR 0x4400003u
+#define NRF_MODEM_DFU_RESULT_AUTH_ERROR 0x4400003u
 /** Modem firmware update failed, due to UUID mismatch.
  * The modem will automatically run the previous (non-updated)
  * firmware on reboot.
  */
-#define MODEM_DFU_RESULT_UUID_ERROR 0x4400004u
+#define NRF_MODEM_DFU_RESULT_UUID_ERROR 0x4400004u
 /** Modem firmware update not executed due to low voltage.
  *  The modem will retry the update on reboot.
  */
-#define MODEM_DFU_RESULT_VOLTAGE_LOW 0x4400005u
+#define NRF_MODEM_DFU_RESULT_VOLTAGE_LOW 0x4400005u
 
 /**@} */
 
