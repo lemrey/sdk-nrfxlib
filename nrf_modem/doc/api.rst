@@ -98,6 +98,10 @@ fcntl parameters
    :project: nrfxlib
    :members:
 
+.. doxygengroup:: nrf_fcnt_flags
+   :project: nrfxlib
+   :members:
+
 Socket API
 **********
 
