@@ -19,7 +19,15 @@ The following figure shows a simplified Modem library architecture:
 Shared memory configuration
 ***************************
 
-The shared memory area can be located anywhere within the first 128 kilobytes of RAM (lowest addresses) and it is logically divided into the following four regions:
+The Modem library implements a communication interface between the application core and the modem core by using a shared memory area to exchange data.
+The shared memory area can be located anywhere within the first 128 kilobytes of RAM (lowest addresses).
+
+In bootloader mode, see :ref:`nrf_modem_bootloader`, the shared memory must be one continous partition with size ``NRF_MODEM_SHMEM_BOOTLOADER_SIZE``.
+The application can configure the location of this region within the first 128 kilobytes of RAM.
+The application is responsible for reserving the memory area before passing it onto the library.
+The library accepts the memory configuration as parameters to the :c:func:`nrf_modem_bootloader_init` function through the :c:struct:`nrf_modem_bootloader_init_params`.
+
+In normal operating mode the shared memory is logically divided into the following four regions:
 
 * Control
 * TX
@@ -27,14 +35,13 @@ The shared memory area can be located anywhere within the first 128 kilobytes of
 * Trace
 
 The application can configure the size and location of these regions.
-The application is responsible for reserving the memory area by setting the values of these parameters before passing them onto the library.
-The library accepts these values as parameters to the :c:func:`nrf_modem_init` function through :c:enum:`nrf_modem_shmem_cfg`.
+The application is responsible for reserving the memory areas before passing them onto the library.
+The library accepts the memory areas as parameters to the :c:func:`nrf_modem_init` function through the :c:struct:`nrf_modem_shmem_cfg` struct in :c:struct:`nrf_modem_init_params`.
 
 .. note::
    The size of the Control area is fixed.
 
 The application can adjust the size of these regions based on the needs to minimize the RAM requirements of the library.
-
 
 For |NCS| users, the Partition Manager will automatically reserve some RAM for each region during linking, according to the size of each region as specified in the glue.
 
