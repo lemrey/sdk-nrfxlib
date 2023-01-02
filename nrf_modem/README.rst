@@ -22,7 +22,7 @@ For more information, see :ref:`nrf_modem_ug_porting`.
    doc/architecture
    doc/at_interface
    doc/gnss_interface
-   doc/full_dfu
+   doc/bootloader
    doc/delta_dfu
    doc/pdn
    doc/tls_dtls_configuration

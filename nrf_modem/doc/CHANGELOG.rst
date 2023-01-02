@@ -9,6 +9,13 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 2.3.0
+***************
+
+* The full DFU interface is renamed to bootloader (:file:`nrf_modem_bootloader.h`).
+  * Note: :c:func:`nrf_modem_full_dfu_apply()` is renamed to :c:func:`nrf_modem_bootloader_update()`.
+* The :c:func:`nrf_modem_init()` function is now only used to initialize the library in normal operating mode. Use :c:func:`nrf_modem_bootloader_init` to initialize the library in bootloader mode.
+
 nrf_modem 2.2.1
 ***************
 
@@ -154,7 +161,7 @@ nrf_modem 1.4.0
 * The GNSS socket has been removed.
 * nrf_errno errno values have been aligned with those of newlibc.
 * The :ref:`Modem API <nrf_modem_api>` (:file:`nrf_modem.h`) has been updated to return negative errno values on error.
-* The :ref:`Full Modem DFU API <nrf_modem_full_dfu_api>` (:file:`nrf_modem_full_dfu.h`) has been updated to return negative errno values on error.
+* The :ref:`Full Modem DFU API <nrf_modem_bootloder_api>` (:file:`nrf_modem_full_dfu.h`) has been updated to return negative errno values on error.
 * The :ref:`GNSS API <nrf_modem_gnss_api>` (:file:`nrf_modem_gnss.h`) has been updated to return negative errno values on error.
 * The :c:func:`nrf_modem_gnss_init` and :c:func:`nrf_modem_gnss_deinit` functions have been removed.
 * Added the GNSS velocity estimate validity bit ``NRF_MODEM_GNSS_PVT_FLAG_VELOCITY_VALID``.
