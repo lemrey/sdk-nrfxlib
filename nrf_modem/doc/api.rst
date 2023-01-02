@@ -145,12 +145,12 @@ AT API
    :project: nrfxlib
    :members:
 
-.. _nrf_modem_full_dfu_api:
+.. _nrf_modem_bootloder_api:
 
-Full DFU API
+Bootloader API
 ************
 
-.. doxygengroup:: nrf_modem_full_dfu
+.. doxygengroup:: nrf_modem_bootloader
    :project: nrfxlib
    :members:
 
