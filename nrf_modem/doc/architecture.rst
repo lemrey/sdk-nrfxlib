@@ -44,6 +44,9 @@ The library accepts the memory areas as parameters to the :c:func:`nrf_modem_ini
 .. note::
    The size of the Control area is fixed.
 
+.. note::
+   The regions base addresses must be word aligned in memory.
+
 The application can adjust the size of these regions based on the needs to minimize the RAM requirements of the library.
 
 For |NCS| users, the Partition Manager will automatically reserve some RAM for each region during linking, according to the size of each region as specified in the glue.
@@ -66,6 +69,10 @@ The library OS abstraction layer defines the following functions to allocate and
 
 * :c:func:`nrf_modem_os_shm_tx_alloc`
 * :c:func:`nrf_modem_os_shm_tx_free`
+
+.. note::
+   It must be possible for the Modem library to allocate up to the number of bytes passed by the TX region size in the :c:struct:`nrf_modem_init_params` struct.
+   If the OS implementation of :c:func:`nrf_modem_os_shm_tx_alloc` require any overhead, additional memory must be set aside by the application.
 
 RX area
 =======
