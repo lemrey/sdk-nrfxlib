@@ -219,12 +219,133 @@ In this case, the application need not provide any intermediate buffers and can 
 Conversely, :c:func:`nrf_modem_at_cmd` is the only function in the AT interface that copies the whole response of the modem from the shared memory into the provided input buffer, which is owned by the application.
 Therefore, this function can be used when the application needs the whole AT command response, as received from the modem, or in those cases when the stack requirements of :c:func:`nrf_modem_at_scanf` are too high for the calling thread, or when parsing the response using a :c:func:`scanf` format is hard.
 
-Filtering AT commands
-*********************
+Hooking to AT command calls
+***************************
 
-The Modem library can filter calls to the :c:func:`nrf_modem_at_cmd` function, sending the AT command to a user-provided callback function instead of the modem.
-You can enable this feature by calling the :c:func:`nrf_modem_at_cmd_filter_set` function with a list of filters defined in the :c:struct:`nrf_modem_at_cmd_filter` structure.
-Only one list of filters can be registered with the Modem library.
+The application can use the :c:func:`nrf_modem_at_cmd_hooks_set` function to set filters that triggers user provided callbacks when matching AT commands are passed to the Modem library.
+The AT command hooks is a list of hooks, containing a filter, a pre callback, a post callback and a state.
+* The filter is a string used to match the hook with a specified AT command or subset of AT commands. The filter must match the start of the AT command.
+  To set a hook for e.g. calls to ``AT+CFUN=0``, for example both ``AT+CFUN=0`` and ``AT+CFUN`` can be used, where the latter also will give callbacks on ``AT+CFUN?``, ``AT+CFUN=?`` and ``AT+CFUN=4`` and so on. ``+CFUN=0`` will not work as it is missing the start of the AT command, ``AT``.
+* The pre callback points to a :c:type:`nrf_modem_at_cmd_hook_pre_callback_t` function callback and is called before the AT command is sent to the modem. If not set, the callback is skipped.
+* The post callback points to a :c:type:`nrf_modem_at_cmd_hook_post_callback_t` function callback and is called after the AT command is sent to the modem. The callback will contain the result of the modem call. If not set, the callback is skipped.
+* The state tells whether the hook is active(0) or paused(1).
+
+A hook can either trigger a callback before or after the command is sent to the modem, or both, if desired.
+A filter can be disabled by setting the `paused` field of the :c:struct:`nrf_modem_at_cmd_hook` struct.
+To remove all AT hooks, the mechanism can be disabled by unsetting the filter.
+
+.. note::
+	The :c:type:`nrf_modem_at_cmd_hook_post_callback_t` require the AT command to be stored in the Modem library heap in addition to the shared memory TX region.
+	To reduce the heap usage, the :c:param:`post_cb_len_max` in the :c:func:`nrf_modem_at_cmd_hooks_set` function is used to decide the maximum AT command string that is given in the post callback.
+	If the AT command string is longer than :c:param:`post_cb_len_max`, it will be truncated in the post callback.
+
+The following snippet shows how to set up and use an AT hook with pre and post callbacks:
+
+.. code-block:: c
+
+	void cfun_pre_callback(const char *at_cmd);
+	{
+		printk("Received pre callback for %s\n", cmd);
+	}
+
+	void cfun_post_callback(const char *at_cmd, int err);
+	{
+		printk("Received post callback for %s with result %d\n", cmd, err);
+	}
+
+	static struct nrf_modem_at_cmd_hook my_at_cmd_hooks[] = {
+		{
+			.cmd = "AT+CFUN",
+			.pre_callback = cfun_pre_callback,
+			.post_callback = cfun_post_callback,
+		}
+	};
+
+	int foo(void)
+	{
+		int err;
+
+		err = nrf_modem_at_cmd_hooks_set(my_at_cmd_hooks, 1, 32);
+		if (err) {
+			/* error */
+		}
+
+		return 0;
+	}
+
+	void bar(void)
+	{
+		int err;
+
+		err = nrf_modem_at_printf("AT+CFUN=%d", 0);
+		if (err) {
+			/* error */
+			return;
+		}
+	}
+
+The following snippet shows how to set up a filter with pre and post callbacks, where the pre callback is paused:
+
+.. code-block:: c
+
+	void cfun_pre_callback(const char *at_cmd);
+	{
+		/* This will not be called. */
+	}
+
+	void cfun_post_callback(const char *at_cmd, int err);
+	{
+		printk("Received post callback for %s with result %d\n", cmd, err);
+	}
+
+	static struct nrf_modem_at_cmd_hook my_at_cmd_hooks[] = {
+		{
+			.cmd = "AT+CFUN",
+			.pre_callback = cfun_pre_callback,
+			.paused = true,
+		},
+		{
+			.cmd = "AT+CFUN",
+			.post_callback = cfun_post_callback,
+		}
+	};
+
+	int foo(void)
+	{
+		int err;
+
+		err = nrf_modem_at_cmd_hooks_set(my_at_cmd_hooks, 1, 32);
+		if (err) {
+			/* error */
+		}
+
+		return 0;
+	}
+
+	void bar(void)
+	{
+		int err;
+
+		err = nrf_modem_at_printf("AT+CFUN=%d", 0);
+		if (err) {
+			/* error */
+			return;
+		}
+
+		/* remove all AT hooks */
+		err = nrf_modem_at_cmd_hooks_set(NULL, 0, 0);
+		if (err) {
+			/* error */
+		}
+	}
+
+Custom AT commands
+******************
+
+The Modem library allows the application to implement AT commands that are either not supported by the modem or that the applcation decide to overwrite.
+This is done by providing a list of custom AT commands to the AT interface. All commands matching the filter when calling the :c:func:`nrf_modem_at_cmd` function, results in the command being sent to a user-provided callback function instead of the modem.
+You can enable this feature by calling the :c:func:`nrf_modem_at_cmd_custom_set` function with a list of custom commands defined in the :c:struct:`nrf_modem_at_cmd_custom` structure.
+Only one list of custom commands can be registered with the Modem library.
 
 When the callback function responds, the Modem library treats the contents of the provided :c:var:`buf` buffer as the modem response.
 The following is the response format that must be the same as the modem's:
@@ -232,7 +353,7 @@ The following is the response format that must be the same as the modem's:
 * Successful responses end with ``OK\r\n``.
 * For error response, use ``ERROR\r\n``, ``+CME ERROR: <errorcode>``, or ``+CMS ERROR: <errorcode>`` depending on the error.
 
-The following snippet shows how to set up and use an AT filter:
+The following snippet shows how to set up and use an custom AT command:
 
 .. code-block:: c
 
@@ -248,7 +369,7 @@ The following snippet shows how to set up and use an AT filter:
 		return 0;
 	}
 
-	static struct nrf_modem_at_cmd_filter my_at_cmd_filters[] = {
+	static struct nrf_modem_at_cmd_custom my_at_cmd_filters[] = {
 		{ .cmd = "AT+MYCOMMAND", .callback = my_command_callback }
 	};
 
@@ -256,7 +377,7 @@ The following snippet shows how to set up and use an AT filter:
 	{
 		int err;
 
-		err = nrf_modem_at_cmd_filter_set(my_at_cmd_filters, 1);
+		err = nrf_modem_at_cmd_custom_filter_set(my_at_cmd_filters, 1);
 		if (err) {
 			/* error */
 		}

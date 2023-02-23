@@ -12,11 +12,34 @@ All notable changes to this project are documented in this file.
 nrf_modem 2.4.0
 ***************
 
+:ref:`Core library <architecture>`
+==================================
+
+:ref:`Sockets <nrf_sockets>`
+============================
+
 * Added the ``NRF_SO_SEC_CIPHERSUITE_USED`` socket option.
 * Added the ``NRF_SO_SEC_DTLS_CID`` and ``NRF_SO_SEC_DTLS_CID_STATUS`` socket options.
 * Added the ``NRF_SO_SEC_TLS_DTLS_FRAG_EXT`` socket option.
 * Added the ``NRF_SO_SEC_DTLS_CONN_SAVE`` and ``NRF_SO_SEC_DTLS_CONN_LOAD`` socket options.
 * Added the ``NRF_SO_SEC_HANDSHAKE_STATUS`` socket option.
+
+:ref:`AT interface <nrf_modem_at>`
+==================================
+
+* Renamed the ``at_cmd_filter`` to ``at_cmd_custom``:
+
+    * The :c:type:`nrf_modem_at_cmd_handler_t` type is renamed to :c:type:`nrf_modem_at_cmd_custom_handler_t`.
+    * The :c:struct:`nrf_modem_at_cmd_filter` struct is renamed to :c:struct:`nrf_modem_at_cmd_custom`.
+    * The :c:func:`nrf_modem_at_cmd_filter_set` function is renamed to :c:func:`nrf_modem_at_cmd_custom_filter_set`.
+
+* Added the :ref:`_at_cmd_hook_readme` to allow the application to receive callbacks before and after an AT command is sent to the modem.
+
+:ref:`GNSS interface <gnss_interface>`
+======================================
+
+:ref:`Bootloader <nrf_modem_bootloader_api>`
+============================================
 
 nrf_modem 2.3.1
 ***************
