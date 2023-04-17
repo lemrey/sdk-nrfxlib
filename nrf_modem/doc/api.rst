@@ -119,7 +119,7 @@ TLS socket
 DTLS handshake timeout values
 =============================
 
-.. doxygengroup:: nrf_socket_tls_dtls_handshake_timeouts
+.. doxygengroup:: nrf_socket_so_sec_handshake_timeouts
    :project: nrfxlib
    :members:
 
@@ -150,6 +150,28 @@ Supported cipher suites
 .. doxygengroup:: nrf_socket_tls_cipher_suites
    :project: nrfxlib
    :members:
+
+DTLS connection ID settings
+===========================
+
+.. doxygengroup:: nrf_so_sec_dtls_cid_settings
+   :project: nrfxlib
+   :members:
+
+DTLS connection ID statuses
+===========================
+
+.. doxygengroup:: nrf_so_sec_dtls_cid_statuses
+   :project: nrfxlib
+   :members:
+
+TLS/DTLS handshake statuses
+===========================
+
+.. doxygengroup:: nrf_so_sec_handshake_statuses
+   :project: nrfxlib
+   :members:
+
 
 Socket address resolution API
 *****************************

@@ -9,6 +9,15 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 2.4.0
+***************
+
+* Added the ``NRF_SO_SEC_CIPHERSUITE_USED`` socket option.
+* Added the ``NRF_SO_SEC_DTLS_CID`` and ``NRF_SO_SEC_DTLS_CID_STATUS`` socket options.
+* Added the ``NRF_SO_SEC_TLS_DTLS_FRAG_EXT`` socket option.
+* Added the ``NRF_SO_SEC_DTLS_CONN_SAVE`` and ``NRF_SO_SEC_DTLS_CONN_LOAD`` socket options.
+* Added the ``NRF_SO_SEC_HANDSHAKE_STATUS`` socket option.
+
 nrf_modem 2.3.1
 ***************
 

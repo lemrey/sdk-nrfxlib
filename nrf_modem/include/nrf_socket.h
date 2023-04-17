@@ -202,7 +202,7 @@ extern "C" {
 
 /** @brief
  * Socket option to set DTLS handshake timeout value.
- * Please see @ref nrf_socket_tls_dtls_handshake_timeouts for allowed values.
+ * Please see @ref nrf_socket_so_sec_handshake_timeouts for allowed values.
  */
 #define NRF_SO_SEC_DTLS_HANDSHAKE_TIMEO 14
 /**@} */
@@ -310,7 +310,7 @@ extern "C" {
 #define NRF_O_NONBLOCK 0x01
 /**@} */
 
-/**@defgroup nrf_socket_tls_dtls_handshake_timeouts DTLS handshake timeout values
+/**@defgroup nrf_socket_so_sec_handshake_timeouts DTLS handshake timeout values
  * @brief Allowed timeout values for DTLS handshake timeout socket option according
  *        to RFC6347 section 4.2.4.1. Default is 123 seconds.
  *        (https://tools.ietf.org/html/rfc6347#section-4.2.4.1)
