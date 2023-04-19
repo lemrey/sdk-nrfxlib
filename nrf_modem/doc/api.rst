@@ -123,6 +123,34 @@ DTLS handshake timeout values
    :project: nrfxlib
    :members:
 
+TLS/DTLS peer verification options
+==================================
+
+.. doxygengroup:: nrf_socket_sec_peer_verify_options
+   :project: nrfxlib
+   :members:
+
+TLS/DTLS session cache options
+==============================
+
+.. doxygengroup:: nrf_socket_session_cache_options
+   :project: nrfxlib
+   :members:
+
+TLS/DTLS socket connection roles
+================================
+
+.. doxygengroup:: nrf_socket_sec_roles
+   :project: nrfxlib
+   :members:
+
+Supported cipher suites
+=======================
+
+.. doxygengroup:: nrf_socket_tls_cipher_suites
+   :project: nrfxlib
+   :members:
+
 Socket address resolution API
 *****************************
 
