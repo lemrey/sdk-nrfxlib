@@ -19,7 +19,7 @@ The following figure shows a simplified Modem library architecture:
 Shared memory configuration
 ***************************
 
-The shared memory between the application and modem cores must reside within the lowest 128 kilobytes of RAM.
+The shared memory between the application and the modem cores must reside within the lowest 128 kilobytes of RAM.
 The application is responsible for reserving the memory area before passing it onto the library.
 
 In bootloader mode, the shared memory area must be as large as the value of ``NRF_MODEM_SHMEM_BOOTLOADER_SIZE`` and its base address must be 4-bytes aligned.
