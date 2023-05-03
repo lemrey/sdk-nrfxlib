@@ -92,7 +92,7 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SECURE  | NRF_SO_SEC_DTLS_CONN_LOAD       | ``int``                | set        | Load DTLS connection.                                                                      |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SECURE  | NRF_SO_SEC_CIPHERSUITE_USED     | ``int``                | get        | Get TLS cipher suite used for the handshake.                                                               |
+| NRF_SOL_SECURE  | NRF_SO_SEC_CIPHERSUITE_USED     | ``int``                | get        | Get TLS cipher suite used for the handshake.                                               |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_IPPROTO_ALL | NRF_SO_SILENCE_ALL              | ``int``                | get/set    | Non-zero disables ICMP echo replies on both IPv4 and IPv6.                                 |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
@@ -247,6 +247,7 @@ NRF_SO_SEC_SESSION_CACHE_PURGE
 
 NRF_SO_SEC_DTLS_HANDSHAKE_TIMEO
    Set the DTLS handshake timeout.
+   Supported from modem firmware version 1.3.x.
    The following values are accepted:
 
    * 0 -  No timeout
@@ -262,7 +263,7 @@ NRF_SO_SEC_DTLS_HANDSHAKE_TIMEO
 
 NRF_SO_SEC_HANDSHAKE_STATUS
    Get the latest TLS/DTLS completed handshake procedure end status.
-   This option is read-only.
+   This option is read-only. Supported from modem firmware version 2.x.x.
 
    The following values are expected:
 
@@ -273,6 +274,7 @@ NRF_SO_SEC_HANDSHAKE_STATUS
 
 NRF_SO_SEC_DTLS_CID
    Set DTLS Connection ID setting.
+   Supported from modem firmware version 1.3.x >= 5 and 2.x.x.
 
    The following values are accepted:
 
@@ -285,6 +287,7 @@ NRF_SO_SEC_DTLS_CID
 NRF_SO_SEC_DTLS_CID_STATUS
    Get the status of DTLS connection ID.
    This option is read-only.
+   Supported from modem firmware version 1.3.x >= 5 and 2.x.x.
 
    The following values are expected:
 
@@ -297,6 +300,7 @@ NRF_SO_SEC_DTLS_CONN_SAVE
    Save DTLS connection.
    This option is write-only.
    This option require a DTLS v1.2 connection with renegotiation disabled.
+   Supported from modem firmware version 1.3.x >= 5 and 2.x.x.
 
    Once the DTLS context is saved, the socket can't be used before the DTLS context is loaded with NRF_SO_SEC_DTLS_CONN_LOAD.
 
@@ -309,10 +313,12 @@ NRF_SO_SEC_DTLS_CONN_SAVE
 NRF_SO_SEC_DTLS_CONN_LOAD
    LOAD DTLS connection.
    This option is write-only.
+   Supported from modem firmware version 1.3.x >= 5 and 2.x.x.
 
 NRF_SO_SEC_CIPHERSUITE_USED
    Get chosen TLS cipher suite.
    This option is read-only.
+   Supported from modem firmware version 2.x.x.
 
 
 Packet data networks
