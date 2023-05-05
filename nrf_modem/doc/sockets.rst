@@ -197,6 +197,7 @@ NRF_SO_SEC_TAG_LIST
    The option length is the size in bytes of the array of security tags.
    Passing ``NULL`` as an option value and ``0`` as an option length removes all security tags associated with a socket.
    By default, no security tags are associated with a socket.
+   The maximum number of security tags are given by the :c:macro:`NRF_SOCKET_TLS_MAX_SEC_TAG_LIST_SIZE` macro in :c:file:`nrf_socket.h`.
 
 NRF_SO_SEC_HOSTNAME
    Set the hostname used for peer verification.
