@@ -54,6 +54,8 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_BINDTODEVICE             | ``char *``             | set        | Bind this socket to a specific PDN like ``pdn0`` as specified in the passed option value.  |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
+| NRF_SOL_SOCKET  | NRF_SO_WAIT_NW_ACK_TIMEOUT      | ``int``                | set        | Timeout value for waiting network ack for sent data.                                       |
++-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_POLLCB                   | ``struct nrf_pollcb``  | set        | Set callbacks for poll() events on sockets.                                                |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_RAI_LAST                 | ``int``                | set        | Enter Radio Resource Control (RRC) idle immediately after the next send operation.         |
@@ -136,6 +138,10 @@ NRF_SO_BINDTODEVICE
    Bind this socket to a particular packet data network like, ``pdn0``, as specified in the passed interface name.
    The passed option is a variable-length null-terminated interface name string with a maximum size of ``NRF_IFNAMSIZ``.
    If a socket is bound to an interface, only packets received from that particular interface are processed by the socket.
+
+NRF_SO_WAIT_NW_ACK_TIMEOUT
+   Set a timeout value for how long the modem will wait for the network to acknowledge  the sent data.
+   The option accepts an integer value between 1 (1 second) and 600 (10 minutes).
 
 NRF_SO_POLLCB
    Set a callback for events occurring on this socket such as :c:macro:`NRF_POLLIN` and :c:macro:`NRF_POLLOUT`.
