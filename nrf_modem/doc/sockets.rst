@@ -127,7 +127,7 @@ NRF_SO_RCVTIMEO
 NRF_SO_SNDTIMEO
    Set a timeout value for the :c:func:`nrf_connect`, :c:func:`nrf_send`, and :c:func:`nrf_sendto` operations.
    The option accepts an :c:struct:`nrf_timeval` structure with a number of seconds and microseconds specifying the limit on how long to wait for an output operation to complete.
-   The default for this option is the value ``0``, which indicates that these operations will not time out.
+   The default for this option is the value ``0``, which indicates that these operations will not time out, or use the maximum timeout available.
 
 .. note::
    The minimum supported resolution is 1 millisecond.
