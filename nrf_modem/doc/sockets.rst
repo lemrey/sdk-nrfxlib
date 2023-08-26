@@ -52,7 +52,7 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_SNDTIMEO                 | ``struct nrf_timeval`` | get/set    | Timeout value for a socket send operation.                                                 |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SOCKET  | NRF_SO_BINDTODEVICE             | ``char *``             | set        | Bind this socket to a specific PDN like ``pdn0`` as specified in the passed option value.  |
+| NRF_SOL_SOCKET  | NRF_SO_BINDTOPDN                | ``int``                | set        | Bind this socket to a specific PDN ID.                                                     |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_POLLCB                   | ``struct nrf_pollcb``  | set        | Set callbacks for poll() events on sockets.                                                |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
@@ -132,9 +132,9 @@ NRF_SO_SNDTIMEO
 .. note::
    The minimum supported resolution is 1 millisecond.
 
-NRF_SO_BINDTODEVICE
-   Bind this socket to a particular packet data network like, ``pdn0``, as specified in the passed interface name.
-   The passed option is a variable-length null-terminated interface name string with a maximum size of ``NRF_IFNAMSIZ``.
+NRF_SO_BINDTOPDN
+   Bind this socket to a particular packet data network id.
+   The passed option is an integer specifying the PDN id.
    If a socket is bound to an interface, only packets received from that particular interface are processed by the socket.
 
 NRF_SO_POLLCB
@@ -340,15 +340,16 @@ For more information about how to configure PDP contexts, activate PDN connectio
 Configuring a socket to use a PDN
 =================================
 
-The application can select which PDN to use on a specific socket by using the :c:func:`nrf_setsockopt` function, with the :c:macro:`NRF_SO_BINDTODEVICE` option and specifying the PDN ID as a string, prefixed by ``pdn``.
-For example, to select the PDN with ID 1, the application must pass ``pdn1`` as the option value.
+The application can select which PDN to use on a specific socket by using the :c:func:`nrf_setsockopt` function, with the :c:macro:`NRF_SO_BINDTOPDN` socket option and specifying the PDN ID as an integer.
 
 The following code shows how to create an IPv4 TCP stream socket and configure it to use the PDN with ID 1:
 
 .. code-block:: c
 
+   int pdn_id = 1;
+
    fd = nrf_socket(NRF_AF_INET, NRF_SOCK_STREAM, NRF_IPPROTO_TCP);
-   nrf_setsockopt(fd, NRF_SOL_SOCKET, NRF_SO_BINDTODEVICE, "pdn1", strlen("pdn1"));
+   nrf_setsockopt(fd, NRF_SOL_SOCKET, NRF_SO_BINDTOPDN, &pdn_id, sizeof(pdn_id));
 
 
 Routing a DNS query on a PDN
