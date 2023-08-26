@@ -9,6 +9,14 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 2.5.0
+***************
+
+:ref:`Sockets <nrf_sockets>`
+============================
+
+* Replaced the :c:macro:`NRF_SO_BINDTODEVICE` socket option with :c:macro:`NRF_SO_BINDTOPDN`. The new option takes an integer for the PDN ID.
+
 nrf_modem 2.4.0
 ***************
 
