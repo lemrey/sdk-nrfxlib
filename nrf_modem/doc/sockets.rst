@@ -56,6 +56,8 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_POLLCB                   | ``struct nrf_pollcb``  | set        | Set callbacks for poll() events on sockets.                                                |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
+| NRF_SOL_SOCKET  | NRF_SO_EXCEPTIONAL_DATA         | ``int``                | get/set    | Send data on socket as part of exceptional event.                                          |
++-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_RAI_LAST                 | ``int``                | set        | Enter Radio Resource Control (RRC) idle immediately after the next send operation.         |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_RAI_ONE_RESP             | ``int``                | set        | Wait for one incoming packet after the next send operation, before entering RRC idle mode. |
@@ -146,6 +148,15 @@ NRF_SO_POLLCB
 
 .. important::
    The callback is invoked in an interrupt service routine.
+
+NRF_SO_EXCEPTIONAL_DATA
+   Send data on socket as part of an exceptional event.
+   Exceptional events are described in the 3GPP Release 14 specification. The feature requires network support.
+
+   Before using this socket option, the PDN associated with the socket must be configured to allow exceptional events by using the ``AT%EXCEPTIONALDATA`` AT command.
+   For more information about the ``AT%EXCEPTIONALDATA`` AT command, see the `nRF91 AT Commands Reference Guide <AT Commands Reference Guide_>`_.
+
+   The socket option is supported from modem firmware v2.0.0.
 
 NRF_SO_RAI_LAST
    This is a Release assistance indication (RAI) socket option.
