@@ -24,12 +24,14 @@ if(CONFIG_NRF_MODEM_LINK_BINARY)
     set(float_dir soft-float)
   endif()
 
-  set(NRF_MODEM_LIB_DIR "lib/${arch_soc_dir}/${float_dir}")
+  set(NRF_MODEM_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/${arch_soc_dir}/${float_dir}")
 
-  if(CONFIG_NRF_MODEM_LOG)
-    zephyr_library_import(modem ${CMAKE_CURRENT_SOURCE_DIR}/${NRF_MODEM_LIB_DIR}/libmodem_log.a)
+  if(CONFIG_NRF_MODEM_DEFAULT)
+    zephyr_library_import(modem ${NRF_MODEM_LIB_DIR}/libmodem.a)
+  elseif(CONFIG_NRF_MODEM_LOG)
+    zephyr_library_import(modem ${NRF_MODEM_LIB_DIR}/libmodem_log.a)
   else()
-    zephyr_library_import(modem ${CMAKE_CURRENT_SOURCE_DIR}/${NRF_MODEM_LIB_DIR}/libmodem.a)
+	assert(0 "Unreachable code")
   endif()
 
   zephyr_include_directories(include)
