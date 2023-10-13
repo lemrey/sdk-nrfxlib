@@ -28,10 +28,10 @@ if(CONFIG_NRF_MODEM_LINK_BINARY)
 
   if(CONFIG_NRF_MODEM_DEFAULT)
     zephyr_library_import(modem ${NRF_MODEM_LIB_DIR}/libmodem.a)
-  elseif(CONFIG_NRF_MODEM_LOG)
+  elseif(CONFIG_NRF_MODEM_BINARY_LOG)
     zephyr_library_import(modem ${NRF_MODEM_LIB_DIR}/libmodem_log.a)
   else()
-	assert(0 "Unreachable code")
+    assert(0 "Unreachable code")
   endif()
 
   zephyr_include_directories(include)

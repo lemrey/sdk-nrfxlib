@@ -18,17 +18,23 @@ config NRF_MODEM_LINK_BINARY
 	select NRF_MODEM_LINKABLE
 endchoice
 
+config NRF_MODEM_LOG
+	bool "Modem library logs"
+	help
+	  Add logs from the modem library.
+
 choice NRF_MODEM_BINARY_CHOICE
 	prompt "Choose binary"
 	depends on NRF_MODEM_LINKABLE
-	default NRF_MODEM_BINARY_DEFAULT
+	default NRF_MODEM_BINARY_LOG if NRF_MODEM_LOG
+	default NRF_MODEM_DEFAULT
 
 config NRF_MODEM_DEFAULT
 	bool "default"
 	help
 	  Link with the default binary.
 
-config NRF_MODEM_LOG
+config NRF_MODEM_BINARY_LOG
 	bool "with logs"
 	help
 	  Link with the binary capable of emitting logs.
