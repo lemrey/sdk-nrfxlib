@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
 #
 
-if(CONFIG_NRF_MODEM_LINK_BINARY)
+if(CONFIG_NRF_MODEM_LINK_BINARY_NRFXLIB)
 
   string(REGEX REPLACE "_[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]$" "" arch_soc_dir ${CONFIG_SOC})
 
@@ -28,7 +28,7 @@ if(CONFIG_NRF_MODEM_LINK_BINARY)
 
   if(CONFIG_NRF_MODEM_DEFAULT)
     zephyr_library_import(modem ${NRF_MODEM_LIB_DIR}/libmodem.a)
-  elseif(CONFIG_NRF_MODEM_BINARY_LOG)
+  elseif(CONFIG_NRF_MODEM_LOG)
     zephyr_library_import(modem ${NRF_MODEM_LIB_DIR}/libmodem_log.a)
   else()
     assert(0 "Unreachable code")
