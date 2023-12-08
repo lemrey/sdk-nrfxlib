@@ -187,7 +187,7 @@ extern "C" {
 
 /** @brief
  * Write-only socket option to select which ciphersuites to use.
- * This option accepts a prioritized list of @sa nrf_sec_cipher_t with selected cipher suites.
+ * This option accepts a prioritized array of selected cipher suites.
  * See @ref nrf_socket_tls_cipher_suites for a list of allowed values.
  */
 #define NRF_SO_SEC_CIPHERSUITE_LIST 3
@@ -201,22 +201,19 @@ extern "C" {
 
 /** @brief
  * Socket option to set peer verification level.
- * See @ref nrf_socket_sec_peer_verify_options for a list of allowed values of type
- * @sa nrf_sec_peer_verify_t.
+ * See @ref nrf_socket_sec_peer_verify_options for a list of allowed values.
  */
 #define NRF_SO_SEC_PEER_VERIFY 5
 
 /** @brief
  * Write-only socket option to set role for the connection.
- * See @ref nrf_socket_sec_roles for a list of allowed values of type
- * @sa nrf_sec_role_t.
+ * See @ref nrf_socket_sec_roles for a list of allowed values.
  */
 #define NRF_SO_SEC_ROLE 6
 
 /** @brief
  * Socket option to control TLS session caching.
- * See @ref nrf_socket_session_cache_options for a list of allowed values of type
- * @sa nrf_sec_session_cache_t.
+ * See @ref nrf_socket_session_cache_options for a list of allowed values.
  */
 #define NRF_SO_SEC_SESSION_CACHE 12
 
@@ -388,7 +385,7 @@ extern "C" {
 
 /**
  * @defgroup nrf_socket_sec_peer_verify_options TLS peer verification options
- * @brief Allowed TLS peer verification options
+ * @brief Allowed TLS peer verification options. By default, peer verification is optional.
  *
  * @ingroup nrf_socket_tls
  * @{
@@ -416,7 +413,8 @@ extern "C" {
 
 /**
  * @defgroup nrf_socket_session_cache_options TLS session cache options
- * @brief Allowed options for the TLS session cache.
+ * @brief Allowed options for the TLS session cache. By default, the session cache is enabled.
+ * @note Session cache may not be used if the peer does not support it.
  *
  * @ingroup nrf_socket_tls
  * @{
@@ -455,7 +453,7 @@ extern "C" {
 
 /**
  * @defgroup nrf_socket_tls_cipher_suites TLS Cipher suites
- * @brief Allowed cipher suites for the nRF modem.
+ * @brief Allowed IANA cipher suites for the nRF modem.
  * @ingroup nrf_socket_tls
  * @{
  */
@@ -698,6 +696,8 @@ struct nrf_ifaddrs {
  * TLS role for the connection.
  *  - 0 - TLS client role.
  *  - 1 - TLS server role.
+ *
+ * @deprecated since v2.6.0, use type int instead.
  */
 typedef uint32_t nrf_sec_role_t;
 
@@ -707,7 +707,7 @@ typedef uint32_t nrf_sec_role_t;
  * More than one security tags may be used on a socket.
  * If more than one tag is used on the socket, pass an array of security tags.
  *
- * A maximum of 8 tags can be set per socket.
+ * A maximum of @ref NRF_SOCKET_TLS_MAX_SEC_TAG_LIST_SIZE tags can be set per socket.
  */
 typedef uint32_t nrf_sec_tag_t;
 
@@ -718,6 +718,8 @@ typedef uint32_t nrf_sec_tag_t;
  *
  * By default, the session cache is enabled.
  * @note Session cache, may not be used if the peer does not support it.
+ *
+ * @deprecated since v2.6.0, use type int instead.
  */
 typedef uint32_t nrf_sec_session_cache_t;
 
@@ -728,11 +730,15 @@ typedef uint32_t nrf_sec_session_cache_t;
  *  - 2 - Required.
  *
  * By default, peer verification is optional.
+ *
+ * @deprecated since v2.6.0, use type int instead.
  */
 typedef uint32_t nrf_sec_peer_verify_t;
 
 /** @brief
  * An IANA cipher suite identifier.
+ *
+ * @deprecated since v2.6.0, use type int instead.
  */
 typedef uint32_t nrf_sec_cipher_t;
 
