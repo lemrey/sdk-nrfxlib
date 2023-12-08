@@ -72,13 +72,13 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SECURE  | NRF_SO_SEC_HOSTNAME             | ``char *``             | get/set    | Set/get the hostname to check against during TLS handshakes.                               |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SECURE  | NRF_SO_SEC_CIPHERSUITE_LIST     | ``nrf_sec_cipher_t *`` | get/set    | Set/get allowed cipher suite list.                                                         |
+| NRF_SOL_SECURE  | NRF_SO_SEC_CIPHERSUITE_LIST     | ``int *``              | get/set    | Set/get allowed cipher suite list.                                                         |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SECURE  | NRF_SO_SEC_PEER_VERIFY          | ``nrf_peer_verify_t``  | get/set    | Set/get Peer verification level.                                                           |
+| NRF_SOL_SECURE  | NRF_SO_SEC_PEER_VERIFY          | ``int``                | get/set    | Set/get Peer verification level.                                                           |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SECURE  | NRF_SO_SEC_ROLE                 | ``nrf_sec_role_t``     | get/set    | Set/get TLS role.                                                                          |
+| NRF_SOL_SECURE  | NRF_SO_SEC_ROLE                 | ``int``                | get/set    | Set/get TLS role.                                                                          |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SECURE  | NRF_SO_SEC_SESSION_CACHE        | ``nrf_session_cache_t``| get/set    | Non-zero enables TLS session cache.                                                        |
+| NRF_SOL_SECURE  | NRF_SO_SEC_SESSION_CACHE        | ``int``                | get/set    | Non-zero enables TLS session cache.                                                        |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SECURE  | NRF_SO_SEC_SESSION_CACHE_PURGE  | ``int``                | set        | Delete TLS session cache.                                                                  |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
