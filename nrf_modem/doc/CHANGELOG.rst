@@ -9,6 +9,14 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem 2.6.0
+***************
+
+sockets
+=======
+
+* Deprecated the ``nrf_sec_cipher_t``, ``nrf_sec_peer_verify_t``, ``nrf_sec_role_t``, and ``nrf_sec_session_cache_t`` types. Use ``int`` instead.
+
 nrf_modem 2.5.0
 ***************
 
