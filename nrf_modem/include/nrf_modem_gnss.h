@@ -146,6 +146,9 @@ extern "C" {
  * to supply assistance data to the GNSS. It is also possible to use this option without A-GNSS,
  * but it should be noted that in that case GNSS will never get some data (for example ionospheric
  * corrections), which may affect the accuracy.
+ *
+ * This option is only valid in periodic navigation mode, because scheduled downloads are not
+ * performed in other navigation modes.
  */
 #define NRF_MODEM_GNSS_USE_CASE_SCHED_DOWNLOAD_DISABLE 0x04
 /** @} */
@@ -185,6 +188,14 @@ extern "C" {
 #define NRF_MODEM_GNSS_PVT_FLAG_NOT_ENOUGH_WINDOW_TIME 0x10
 /** @brief The velocity estimate is valid. */
 #define NRF_MODEM_GNSS_PVT_FLAG_VELOCITY_VALID         0x20
+/** @brief The PVT notification was sent because of a scheduled download.
+ *
+ * @details Indicates that GNSS is running because of a scheduled download. This flag is only used
+ *          in the periodic navigation mode.
+ *
+ * @note This flag is only supported by modem firmware v2.0.0 or later.
+ */
+#define NRF_MODEM_GNSS_PVT_FLAG_SCHED_DOWNLOAD         0x40
 /** @} */
 
 /** @defgroup nrf_modem_gnss_sv_flag_bitmask Satellite flags bitmask values
@@ -269,6 +280,9 @@ extern "C" {
 /** @brief GNSS fix event.
  *
  * @details Payload is of type @ref nrf_modem_gnss_pvt_data_frame.
+ *
+ * @note In periodic navigation mode with modem firmware v2.0.0 or later, this event is not sent
+ *       when GNSS is running because of a scheduled download.
  */
 #define NRF_MODEM_GNSS_EVT_FIX                 2
 /** @brief NMEA event.
@@ -431,7 +445,7 @@ struct nrf_modem_gnss_sv {
 	 *  193...202 for QZSS.
 	 */
 	uint16_t sv;
-	/** Signal type, see @ref nrf_modem_gnss_signal_types. */
+	/** Signal type, see @ref nrf_modem_gnss_signal_id. */
 	uint8_t signal;
 	/** 0.1 dB/Hz. */
 	uint16_t cn0;

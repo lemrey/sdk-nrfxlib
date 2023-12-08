@@ -12,6 +12,16 @@ All notable changes to this project are documented in this file.
 nrf_modem 2.6.0
 ***************
 
+Core library
+============
+
+* Added the :c:func:`nrf_modem_os_mutex_init`, :c:func:`nrf_modem_os_mutex_lock` and :c:func:`nrf_modem_os_mutex_unlock` functions to the OS requirements.
+
+AT interface
+============
+
+* Added the CFUN handler for getting callbacks on functional mode changes.
+
 sockets
 =======
 
