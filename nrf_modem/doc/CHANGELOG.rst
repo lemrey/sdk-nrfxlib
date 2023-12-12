@@ -16,6 +16,8 @@ sockets
 =======
 
 * Deprecated the ``nrf_sec_cipher_t``, ``nrf_sec_peer_verify_t``, ``nrf_sec_role_t``, and ``nrf_sec_session_cache_t`` types. Use ``int`` instead.
+* Deprecated the RAI socket options :c:macro:`NRF_SO_RAI_NO_DATA`, :c:macro:`NRF_SO_RAI_LAST`, :c:macro:`NRF_SO_RAI_ONE_RESP`, :c:macro:`NRF_SO_RAI_ONGOING`, and :c:macro:`NRF_SO_RAI_WAIT_MORE`.
+* Added the RAI socket option :c:macro:`NRF_SO_RAI` and the values :c:macro:`NRF_RAI_NO_DATA`, :c:macro:`NRF_RAI_LAST`, :c:macro:`NRF_RAI_ONE_RESP`, :c:macro:`NRF_RAI_ONGOING`, and :c:macro:`NRF_RAI_WAIT_MORE`.
 
 nrf_modem 2.5.0
 ***************
