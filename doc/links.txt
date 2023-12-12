@@ -110,3 +110,5 @@
 .. _`nPM1300 Evaluation Kit`: https://infocenter.nordicsemi.com/
 
 .. _`Wireshark`: https://www.wireshark.org/
+
+.. _`3GPP TS 24.301 Technical Specification`: https://www.3gpp.org/DynaReport/24301.htm
