@@ -476,6 +476,41 @@ In this case, either security tag 4 or security tag 5 can be used for operations
 
    Using multiple security tags
 
+TLS traffic decryption
+======================
+
+Starting from modem firmware v2.0.0, Transport Layer Security (TLS) traffic can be decrypted with Nordic tools if the TLS session is created using certificates stored to security tags ranging between the values specified in :c:macro:`NRF_SEC_TAG_TLS_DECRYPT_0` and :c:macro:`NRF_SEC_TAG_TLS_DECRYPT_19`.
+
+.. important::
+   These security tags must be used only for test and development purposes.
+
+Testing TLS traffic decryption 
+------------------------------
+
+Before you start testing TLS traffic decryption, make sure that the following prerequisites are satisfied:
+
+#. The device runs an application that supports TLS.
+   The TLS session is created using certificates stored to tags ranging between the values specified in :c:macro:`NRF_SEC_TAG_TLS_DECRYPT_0` and :c:macro:`NRF_SEC_TAG_TLS_DECRYPT_19`.
+#. The device has modem traces enabled.
+   For information on modem traces and how to enable them, see the :ref:`modem_trace` documentation.
+#. Modem firmware v2.0.0 or higher is programmed on your device.
+   For information on how to find the modem firmware version, see the `Revision Identification +CGMR`_ documentation.
+#. Wireshark is installed on your machine.
+   For information on Wireshark and how to install it, see `Wireshark`_.
+
+Complete the following steps to test TLS traffic decryption:
+
+#. |connect_kit|
+#. Open the `Cellular Monitor`_ desktop application and connect the device.
+#. Select :guilabel:`Autoselect` from the **Modem trace database** drop-down menu, or a modem firmware version that is programmed on the device.
+#. Make sure that :guilabel:`Open in Wireshark` is selected.
+#. Click :guilabel:`Open Serial Terminal` and keep the terminal window open (optional).
+#. Click :guilabel:`Start` to begin the modem trace.
+   The button changes to :guilabel:`Stop` and is greyed out.
+#. In Wireshark, observe the incoming traffic.
+   Successfully decrypted TLS traffic will be indicated by an additional layer named :guilabel:`Decrypted TLS` in the packet details pane.
+   Expand this layer to inspect the decrypted content.
+
 Supported cipher suites
 =======================
 
