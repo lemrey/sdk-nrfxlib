@@ -17,6 +17,11 @@ sockets
 
 * Deprecated the ``nrf_sec_cipher_t``, ``nrf_sec_peer_verify_t``, ``nrf_sec_role_t``, and ``nrf_sec_session_cache_t`` types. Use ``int`` instead.
 
+AT interface
+============
+
+* Changed the return value of the :c:func:`nrf_modem_at_notif_handler_set` function to :c:type:`void`.
+
 nrf_modem 2.5.0
 ***************
 

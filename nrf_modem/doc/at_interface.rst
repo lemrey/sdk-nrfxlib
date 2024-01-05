@@ -303,12 +303,7 @@ The following snippet shows how to setup an AT notification handler:
 
 	int foo(void)
 	{
-		int err;
-
-		err = nrf_modem_at_notif_handler_set(notif_callback);
-		if (err) {
-			/* error */
-		}
+		nrf_modem_at_notif_handler_set(notif_callback);
 
 		return 0;
 	}
