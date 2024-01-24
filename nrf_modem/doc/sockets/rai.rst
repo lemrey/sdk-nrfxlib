@@ -1,7 +1,11 @@
 .. _release_assistance_indication:
 
 Release Assistance Indication (RAI)
-***********************************
+###################################
+
+.. contents::
+   :local:
+   :depth: 1
 
 Release Assistance Indication (RAI) is a feature introduced in 3GPP Release 13 and further enhanced in Release 14.
 It is designed to optimize the power consumption of IoT devices by allowing them to inform the network that they do not expect any more data to be sent or received after their current transmission.
@@ -24,7 +28,7 @@ The following are the advantages of using RAI:
 * Enhanced Network Efficiency - Helps in reducing network congestion by minimizing the time devices spend connected to the network.
 
 Enabling RAI
-============
+************
 
 RAI can be enabled or disabled using the following AT commands:
 
@@ -32,7 +36,7 @@ RAI can be enabled or disabled using the following AT commands:
 * To disable: ``AT%RAI=0``
 
 Using RAI
-=========
+*********
 
 After enabling RAI, you control it using the :c:func:`nrf_setsockopt` function with the :c:macro:`NRF_SO_RAI` socket option and with the following values:
 
@@ -43,7 +47,7 @@ After enabling RAI, you control it using the :c:func:`nrf_setsockopt` function w
 * :c:macro:`NRF_RAI_WAIT_MORE` - The socket is actively used by a server application, and the connection should be maintained.
 
 Code examples
-=============
+*************
 
 The following code snippets illustrate some cases on how to apply RAI using the :c:func:`nrf_setsockopt()` function.
 
@@ -128,7 +132,7 @@ An example that shows how to use :c:macro:`NRF_RAI_NO_DATA` when receiving a UDP
    This caution helps avoid the additional energy expenditure associated with re-establishing the radio connection.
 
 Checking RAI status
-===================
+*******************
 
 To verify if the RAI information was reported to the network:
 
@@ -136,7 +140,7 @@ To verify if the RAI information was reported to the network:
 * For AS-RAI, currently, it is not visible in customer builds without specific modem traces.
 
 RAI best practices
-==================
+******************
 
 The following are the best practices to be considered while using RAI:
 
@@ -145,12 +149,12 @@ The following are the best practices to be considered while using RAI:
 * Consider each socket separately for RAI usage, and the modem will aggregate the RAI status across all sockets.
 
 References
-==========
+**********
 
 * `3GPP TS 24.301 Technical Specification`_
 
 Conclusion
-==========
+**********
 
 RAI is a useful feature for optimizing network resource usage and device power consumption.
 By indicating the end of data transmission, devices can potentially reduce the time they spend connected to the network, saving battery life and freeing up network resources.

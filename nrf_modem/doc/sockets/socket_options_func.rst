@@ -1,4 +1,17 @@
-The implementation is namespaced (``nrf_``) to avoid conflicts with functions that might be part of libc or other POSIX compatibility libraries.
+.. _socket_options_func:
+
+Supported functions and socket options
+######################################
+
+.. contents::
+   :local:
+   :depth: 1
+
+The networking sockets support a list of functions and socket options.
+The implementation of networking sockets is namespaced (``nrf_``) to avoid conflicts with functions that might be part of libc or other POSIX compatibility libraries.
+
+Supported functions
+*******************
 
 Following is a list of supported functions:
 
@@ -148,7 +161,7 @@ NRF_SO_RAI
     * :c:macro:`NRF_RAI_ONE_RESP` - After the next output operation is complete, wait for one more packet to be received from the network on this socket before entering RRC idle mode.
     * :c:macro:`NRF_RAI_ONGOING` - Keep RRC in connected mode after the next output operation on this socket (client side).
     * :c:macro:`NRF_RAI_WAIT_MORE` - Keep RRC in connected mode after the next output operation on this socket (server side).
-      
+
 NRF_SO_SILENCE_ALL
    Disable ICMP echo replies on both IPv4 and IPv6.
    The option value is an integer, a ``1`` value disables echo replies.
