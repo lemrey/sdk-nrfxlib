@@ -1,5 +1,11 @@
-Packet data networks
-********************
+.. _packet_data_networks:
+
+Packet Data Networks (PDN)
+##########################
+
+.. contents::
+   :local:
+   :depth: 1
 
 The Modem library supports selecting which Packet Data Network (PDN) to use on a network socket and for DNS queries.
 The configuration of Packet Data Protocol (PDP) contexts, and the activation of PDN connections are not handled by the Modem library.
@@ -10,7 +16,7 @@ For more information about how to configure PDP contexts, activate PDN connectio
 
 
 Configuring a socket to use a PDN
-=================================
+*********************************
 
 The application can select which PDN to use on a specific socket by using the :c:func:`nrf_setsockopt` function with the :c:macro:`NRF_SO_BINDTOPDN` socket option and specifying the PDN ID as an integer.
 
@@ -25,7 +31,7 @@ The following code shows how to create an IPv4 TCP stream socket and configure i
 
 
 Routing a DNS query on a PDN
-============================
+****************************
 
 The application can route a DNS query using the :c:func:`nrf_getaddrinfo` function to a specific PDN.
 This can be done by setting the ``NRF_AI_PDNSERV`` flag in the ``ai_flags`` field of the ``nrf_addrinfo`` input structure, and specifying the PDN ID as a string prefixed by ``pdn``, in the ``service`` argument to the :c:func:`nrf_getaddrinfo` function call.
@@ -41,7 +47,7 @@ The following code shows how to route a DNS query to the PDN with ID 1:
    nrf_getaddrinfo("example.com", "pdn1", &hints, &result);
 
 Handling PDN errors on sockets
-==============================
+******************************
 
 During operation, an active PDN connection may be deactivated due to loss of connectivity or other reasons.
 When a socket operation is attempted on a socket that no longer has an active PDN connection, the operation will return ``-1`` and set ``errno`` to ``NRF_ENETDOWN``.

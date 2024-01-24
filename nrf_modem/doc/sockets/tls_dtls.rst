@@ -1,12 +1,16 @@
 TLS/DTLS configuration
-**********************
+######################
+
+.. contents::
+   :local:
+   :depth: 2
 
 The IP stack in the nRF91 Series modem firmware has TLS and DTLS support.
 
 .. _security_tags:
 
 Security tags
-=============
+*************
 
 To use the cryptographic functions in the modem, the application must provision the security credentials to the modem.
 To be able to provision credentials, the modem must be in offline mode.
@@ -71,15 +75,15 @@ In this case, either security tag 4 or security tag 5 can be used for operations
    Using multiple security tags
 
 TLS traffic decryption
-======================
+**********************
 
 Starting from modem firmware v2.0.0, Transport Layer Security (TLS) traffic can be decrypted with Nordic tools if the TLS session is created using certificates stored to security tags ranging between the values specified in :c:macro:`NRF_SEC_TAG_TLS_DECRYPT_0` and :c:macro:`NRF_SEC_TAG_TLS_DECRYPT_19`.
 
 .. important::
    These security tags must be used only for test and development purposes.
 
-Testing TLS traffic decryption 
-------------------------------
+Testing TLS traffic decryption
+==============================
 
 Before you start testing TLS traffic decryption, make sure that the following prerequisites are satisfied:
 
@@ -106,7 +110,7 @@ Complete the following steps to test TLS traffic decryption:
    Expand this layer to inspect the decrypted content.
 
 Supported cipher suites
-=======================
+-----------------------
 
 See the `nRF9160 modem TLS cipher suites`_ or `nRF91x1 modem TLS cipher suites`_ summary page, depending on the SiP you are using, for a full list of TLS/DTLS cipher suites supported by the modem.
 
