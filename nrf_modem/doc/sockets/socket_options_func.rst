@@ -98,7 +98,7 @@ The following table shows all socket options supported by the Modem library.
 | NRF_SOL_SECURE  | NRF_SO_SEC_CIPHERSUITE_USED     | ``int``                | get        | Get TLS cipher suite used for the handshake.                                               |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 
-The details for each socket are described as follows:
+The details for each socket option are described as follows:
 
 NRF_SO_ERROR
    When this option is specified, :c:func:`nrf_getsockopt` returns any pending errors on the socket and clears the error status.
