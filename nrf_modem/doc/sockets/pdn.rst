@@ -14,6 +14,9 @@ To configure PDP contexts and activate PDN connections, the application must use
 When performing network operations on any PDN, the application ensures that the PDN connection is available.
 For more information about how to configure PDP contexts, activate PDN connections, and determine their state, see the `Packet domain commands`_ section in the nRF9160 AT Commands Reference Guide or the same section in the `nRF91x1 AT Commands Reference Guide`_ depending on the SiP you are using.
 
+The packet domain AT commands can be used to manage packet data networks.
+Alternatively, the :ref:`pdn_readme` library in |NCS| can be used to receive events on PDN connectivity and manage packet data networks.
+
 
 Configuring a socket to use a PDN
 *********************************
@@ -56,6 +59,3 @@ The socket error can be retrieved using the :c:macro:`NRF_SO_ERROR` socket optio
 
 When the ``NRF_ENETDOWN`` error is detected, the socket is no longer usable and must be closed by the application.
 The application is responsible for detecting when the PDN connection is activated again, before re-creating the socket and attempting the failed operation again.
-
-The packet domain AT commands can be used to manage packet data networks.
-Alternatively, the :ref:`pdn_readme` library in |NCS| can be used to receive events on PDN connectivity and manage packet data networks.
