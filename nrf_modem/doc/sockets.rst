@@ -60,6 +60,14 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_RAI                      | ``int``                | set        | Release Assistance Indication (RAI).                                                       |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
+| NRF_IPPROTO_ALL | NRF_SO_SILENCE_ALL              | ``int``                | get/set    | Non-zero disables ICMP echo replies on both IPv4 and IPv6.                                 |
++-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
+| NRF_IPPROTO_IP  | NRF_SO_IP_ECHO_REPLY            | ``int``                | get/set    | Non-zero enables ICMP echo replies on IPv4.                                                |
++-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
+| NRF_IPPROTO_IPV6| NRF_SO_IPV6_ECHO_REPLY          | ``int``                | get/set    | Non-zero enables ICMP echo replies on IPv6.                                                |
++-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
+| NRF_IPPROTO_TCP | NRF_SO_TCP_SRV_SESSTIMEO        | ``int``                | get/set    | Non-zero enables TCP server session timeout after a configurable period of inactivity.     |
++-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SECURE  | NRF_SO_SEC_TAG_LIST             | ``nrf_sec_tag_t *``    | get/set    | Set/get the security tag associated with a socket.                                         |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SECURE  | NRF_SO_SEC_HOSTNAME             | ``char *``             | get/set    | Set/get the hostname to check against during TLS handshakes.                               |
@@ -87,14 +95,6 @@ The following table shows all socket options supported by the Modem library.
 | NRF_SOL_SECURE  | NRF_SO_SEC_DTLS_CONN_LOAD       | ``int``                | set        | Load DTLS connection.                                                                      |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SECURE  | NRF_SO_SEC_CIPHERSUITE_USED     | ``int``                | get        | Get TLS cipher suite used for the handshake.                                               |
-+-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_IPPROTO_ALL | NRF_SO_SILENCE_ALL              | ``int``                | get/set    | Non-zero disables ICMP echo replies on both IPv4 and IPv6.                                 |
-+-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_IPPROTO_IP  | NRF_SO_IP_ECHO_REPLY            | ``int``                | get/set    | Non-zero enables ICMP echo replies on IPv4.                                                |
-+-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_IPPROTO_IPV6| NRF_SO_IPV6_ECHO_REPLY          | ``int``                | get/set    | Non-zero enables ICMP echo replies on IPv6.                                                |
-+-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_IPPROTO_TCP | NRF_SO_TCP_SRV_SESSTIMEO        | ``int``                | get/set    | Non-zero enables TCP server session timeout after a configurable period of inactivity.     |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 
 The details for each socket are described as follows:
