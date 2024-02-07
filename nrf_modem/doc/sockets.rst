@@ -19,5 +19,6 @@ See the subpages for detailed documentation on the networking sockets:
 
    sockets/socket_options_func
    sockets/pdn
+   sockets/raw_sockets
    sockets/tls_dtls
    sockets/rai
