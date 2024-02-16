@@ -59,6 +59,8 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_EXCEPTIONAL_DATA         | ``int``                | get/set    | Send data on socket as part of exceptional event.                                          |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
+| NRF_SOL_SOCKET  | NRF_SO_KEEPOPEN                 | ``int``                | get/set    | Keep the socket open when its PDN connection is lost, or the device is set to flight mode. |
++-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_RAI                      | ``int``                | set        | Release Assistance Indication (RAI).                                                       |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_IPPROTO_ALL | NRF_SO_SILENCE_ALL              | ``int``                | get/set    | Non-zero disables ICMP echo replies on both IPv4 and IPv6.                                 |
@@ -151,6 +153,36 @@ NRF_SO_EXCEPTIONAL_DATA
    For more information about the ``AT%EXCEPTIONALDATA`` AT command, see the `nRF91x1 AT Commands Reference Guide`_.
 
    The socket option is supported from modem firmware v2.0.0.
+
+NRF_SO_KEEPOPEN
+   Keep the socket from being closed upon PDN disconnection or reactivation events, or when the device is set to flight mode (``+CFUN=4``).
+   Until the PDN connection is reestablished, the socket is not functional.
+   Output operations, such as the functions :c:func:`nrf_send` and :c:func:`nrf_connect` return an error and set ``errno`` to :c:macro:`NRF_ENETUNREACH`.
+   Input operations, such as the functions :c:func:`nrf_recv` and :c:func:`nrf_accept` block, since no data can be received, or return an error if the socket or the operation are non-blocking.
+   Upon PDN connection reestablishment, the socket behavior depends on the socket type and protocol and on the IP address of the socket's newly established PDN connection, as shown in the following table:
+
+   +-----------------+--------------------+--------------------------------------------------------------+
+   | Socket type     | Socket protocol    | Socket is functional (no errors)                             |
+   +=================+====================+==============================================================+
+   | NRF_SOCK_DGRAM  | NRF_IPPROTO_UDP    | Always                                                       |
+   +-----------------+--------------------+--------------------------------------------------------------+
+   | NRF_SOCK_DGRAM  | NRF_SPROTO_DTLS1v2 | If using DTLS connection ID                                  |
+   +-----------------+--------------------+--------------------------------------------------------------+
+   | NRF_SOCK_STREAM | NRF_IPPROTO_TCP    | If the IP address of socket's PDN connection has not changed |
+   +-----------------+--------------------+--------------------------------------------------------------+
+   | NRF_SOCK_STREAM | NRF_SPROTO_TLS1v2  | If the IP address of socket's PDN connection has not changed |
+   +-----------------+--------------------+--------------------------------------------------------------+
+   | NRF_SOCK_RAW    | Any                | Always                                                       |
+   +-----------------+--------------------+--------------------------------------------------------------+
+
+   If the conditions to keep the socket open after PDN connection reestablishment are not met, the socket will report an error (and set `errno` to :c:macro:`NRF_ENETDOWN`), and must be closed by the application.
+   Otherwise, the socket is functional, and the application can use it.
+   For further information on how to detect and handle these errors, see :ref:`handling_pdn_errors_on_sockets`.
+
+.. note::
+   Putting the device into functional mode ``0`` (``+CFUN=0``) always forces all sockets to be closed, regardless of the :c:macro:`NRF_SO_KEEPOPEN` socket option.
+
+   This socket option is supported from modem firmware v2.0.1.
 
 NRF_SO_RAI
    This socket option is used for Release Assistance Indication (RAI).

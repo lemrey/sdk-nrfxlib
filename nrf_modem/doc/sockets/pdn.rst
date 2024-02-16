@@ -48,6 +48,8 @@ The following code shows how to route a DNS query to the PDN with ID 1:
 
    nrf_getaddrinfo("example.com", "pdn1", &hints, &result);
 
+.. _handling_pdn_errors_on_sockets:
+
 Handling PDN errors on sockets
 ******************************
 
