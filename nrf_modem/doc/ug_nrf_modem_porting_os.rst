@@ -178,12 +178,12 @@ This function is called by the Modem library to put a thread to sleep for a cert
 * Put the thread to sleep, if applicable, or otherwise wait until the amount of time specified by ``timeout`` has elapsed, or until :c:func:`nrf_modem_os_event_notify` is called with the same ``context`` parameter, or with ``context`` equal to ``0``.
 * After the wait is complete, update the ``timeout`` parameter with the amount of time left to sleep.
   This will be ``0`` if the timeout has elapsed or the amount of time left to sleep if the wait was interrupted by a call to :c:func:`nrf_modem_os_event_notify`.
-* Check the Modem library initialization status using :c:func:`nrf_modem_is_initialized` and return ``-NRF_ESHUTDOWN`` if that call returns ``false``.
+* Check the Modem library initialization status using :c:func:`nrf_modem_is_initialized` and return negative :c:macro:`NRF_ESHUTDOWN` if that call returns ``false``.
 
 The following points decide the *Function return value*:
 
-* If the modem is not initialized, that is, if :c:func:`nrf_modem_is_initialized` returns false, function return value will be ``-NRF_ESHUTDOWN``.
-* If there is a time out, function return value will be ``-NRF_EAGAIN``.
+* If the modem is not initialized, that is, if :c:func:`nrf_modem_is_initialized` returns false, function return value will be negative :c:macro:`NRF_ESHUTDOWN`.
+* If there is a time out, function return value will be negative :c:macro:`NRF_EAGAIN`.
 * In all other cases, function return value will be ``0``.
 
 nrf_modem_os_event_notify()

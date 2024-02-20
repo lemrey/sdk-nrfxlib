@@ -53,7 +53,7 @@ Tracing and modem faults
 
 When a fault occurs in the modem and traces are enabled, the modem will send a coredump using the trace interface.
 The :c:func:`nrf_modem_trace_get` function returns trace fragments until there are no more fragments to process.
-In the case where there are no more trace fragments after a modem coredump is complete, the :c:func:`nrf_modem_trace_get` function returns ``-NRF_ENODATA`` as shown in the following figure:
+In the case where there are no more trace fragments after a modem coredump is complete, the :c:func:`nrf_modem_trace_get` function returns negative :c:macro:`NRF_ENODATA` as shown in the following figure:
 
 .. figure:: images/nrf_modem_trace_sequence_coredump.svg
    :alt: Modem library coredump trace sequence

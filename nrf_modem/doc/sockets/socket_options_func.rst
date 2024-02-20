@@ -113,7 +113,7 @@ NRF_SO_REUSEADDR
 NRF_SO_RCVTIMEO
    Set a timeout value for the :c:func:`nrf_recv` and :c:func:`nrf_recvfrom` operations.
    This option accepts an :c:struct:`nrf_timeval` structure with a number of seconds and microseconds specifying the limit on how long to wait for an input operation to complete.
-   If a receive operation has blocked for this much time without receiving additional data, it returns with a partial count, or ``errno`` is set to ``NRF_EAGAIN`` or ``NRF_EWOULDBLOCK`` if no data were received.
+   If a receive operation has blocked for this much time without receiving additional data, it returns with a partial count, or ``errno`` is set to :c:macro:`NRF_EAGAIN` or :c:macro:`NRF_EWOULDBLOCK` if no data were received.
    The default for this option is the value ``0``, which indicates that a receive operation will not time out.
 
 .. note::
@@ -308,21 +308,21 @@ NRF_SO_SEC_DTLS_CONN_SAVE
 
    Once the DTLS context is saved, the socket can't be used before the DTLS context is loaded with :c:macro:`NRF_SO_SEC_DTLS_CONN_LOAD`.
 
-   This option fails with nrf_errno ``NRF_EAGAIN`` if an error happened during serialization of the SSL context.
+   This option fails with nrf_errno :c:macro:`NRF_EAGAIN` if an error happened during serialization of the SSL context.
    This can occur, for instance, when the modem cannot allocate enough memory or if the socket is busy sending or receiving data.
    In this case, the SSL context is still present in the socket, so data sending is still possible.
-   The option fails with nrf_errno ``NRF_EINVAL`` if the socket option is not supported with the current configuration, for instance because the DTLS handshake is not completed,
+   The option fails with nrf_errno :c:macro:`NRF_EINVAL` if the socket option is not supported with the current configuration, for instance because the DTLS handshake is not completed,
    the connection is not an DTLS v1.2 connection with renegotiation disabled, or the connection does not use an AEAD cipher suite (AES-CCM or AES-GCM).
-   The option fails with nrf_errno ``NRF_ENOMEM`` if the amount of saved connections exceeds four.
+   The option fails with nrf_errno :c:macro:`NRF_ENOMEM` if the amount of saved connections exceeds four.
 
 NRF_SO_SEC_DTLS_CONN_LOAD
    Load DTLS connection.
    This option is write-only.
    The socket option is supported from modem firmware v1.3.x, where x is greater than or equal to 5, and v2.x.x.
 
-   This option fails with nrf_errno ``NRF_EAGAIN`` if an error happened during deserialization of the SSL context.
+   This option fails with nrf_errno :c:macro:`NRF_EAGAIN` if an error happened during deserialization of the SSL context.
    This can occur, for instance, when the modem cannot allocate enough memory or the connection is not saved.
-   The option fails with nrf_errno ``NRF_EINVAL`` if the socket option is not supported with the current configuration.
+   The option fails with nrf_errno :c:macro:`NRF_EINVAL` if the socket option is not supported with the current configuration.
 
 NRF_SO_SEC_CIPHERSUITE_USED
    Get chosen TLS cipher suite.
