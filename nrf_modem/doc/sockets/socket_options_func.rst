@@ -20,6 +20,7 @@ Following is a list of supported functions:
 * :c:func:`nrf_connect`
 * :c:func:`nrf_bind`
 * :c:func:`nrf_listen`
+* :c:func:`nrf_accept`
 * :c:func:`nrf_send`
 * :c:func:`nrf_sendto`
 * :c:func:`nrf_recv`
@@ -34,6 +35,7 @@ Following is a list of supported functions:
 * :c:func:`nrf_freeifaddrs`
 * :c:func:`nrf_inet_pton`
 * :c:func:`nrf_inet_ntop`
+* :c:func:`nrf_setdnsaddr`
 
 The library supports up to eight networking sockets.
 
@@ -49,13 +51,13 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_REUSEADDR                | ``int``                | set        | Non-zero requests reuse of local addresses in :c:func:`nrf_bind` (protocol-specific).      |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SOCKET  | NRF_SO_RCVTIMEO                 | ``struct nrf_timeval`` | get/set    | Timeout value for a socket receive and accept operations.                                              |
+| NRF_SOL_SOCKET  | NRF_SO_RCVTIMEO                 | ``struct nrf_timeval`` | get/set    | Timeout value for a socket receive and accept operations.                                  |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_SNDTIMEO                 | ``struct nrf_timeval`` | get/set    | Timeout value for a socket send operation.                                                 |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_BINDTOPDN                | ``int``                | set        | Bind this socket to a specific PDN ID.                                                     |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SOCKET  | NRF_SO_POLLCB                   | ``struct nrf_pollcb``  | set        | Set callbacks for poll() events on sockets.                                                |
+| NRF_SOL_SOCKET  | NRF_SO_POLLCB                   | ``struct nrf_pollcb``  | set        | Set callbacks for :c:func:`nrf_poll` events on sockets.                                    |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_EXCEPTIONAL_DATA         | ``int``                | get/set    | Send data on socket as part of exceptional event.                                          |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
@@ -258,7 +260,7 @@ NRF_SO_SEC_ROLE
    * :c:macro:`NRF_SO_SEC_ROLE_SERVER` - Server role
 
    The default role is client.
-   For TLS, the choice is implicit from the usage of ``listen()``, ``accept()`` and ``connect()``.
+   For TLS, the choice is implicit from the usage of :c:func:`nrf_listen`, :c:func:`nrf_accept` and :c:func:`nrf_connect`.
 
 NRF_SO_SEC_SESSION_CACHE
    This option controls TLS session caching.
