@@ -49,7 +49,7 @@ The following table shows all socket options supported by the Modem library.
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_REUSEADDR                | ``int``                | set        | Non-zero requests reuse of local addresses in :c:func:`nrf_bind` (protocol-specific).      |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
-| NRF_SOL_SOCKET  | NRF_SO_RCVTIMEO                 | ``struct nrf_timeval`` | get/set    | Timeout value for a socket receive operation.                                              |
+| NRF_SOL_SOCKET  | NRF_SO_RCVTIMEO                 | ``struct nrf_timeval`` | get/set    | Timeout value for a socket receive and accept operations.                                              |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
 | NRF_SOL_SOCKET  | NRF_SO_SNDTIMEO                 | ``struct nrf_timeval`` | get/set    | Timeout value for a socket send operation.                                                 |
 +-----------------+---------------------------------+------------------------+------------+--------------------------------------------------------------------------------------------+
@@ -111,10 +111,11 @@ NRF_SO_REUSEADDR
   The default value for :c:macro:`NRF_SO_REUSEADDR` is ``off``, that is, reuse of local addresses is not permitted.
 
 NRF_SO_RCVTIMEO
-   Set a timeout value for the :c:func:`nrf_recv` and :c:func:`nrf_recvfrom` operations.
+   Set a timeout value for the :c:func:`nrf_recv`, :c:func:`nrf_recvfrom` and :c:func:`nrf_accept` operations.
    This option accepts an :c:struct:`nrf_timeval` structure with a number of seconds and microseconds specifying the limit on how long to wait for an input operation to complete.
    If a receive operation has blocked for this much time without receiving additional data, it returns with a partial count, or ``errno`` is set to :c:macro:`NRF_EAGAIN` or :c:macro:`NRF_EWOULDBLOCK` if no data were received.
-   The default for this option is the value ``0``, which indicates that a receive operation will not time out.
+   If an accept operation has blocked for this much time without receiving an incoming connection, it returns ``-1`` and ``errno`` is set to :c:macro:`NRF_EAGAIN`.
+   The default for this option is the value ``0``, which indicates that a receive or accept operation will not time out.
 
 .. note::
    The minimum supported resolution is 1 millisecond.
