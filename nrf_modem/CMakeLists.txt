@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
 #
 
-if(CONFIG_NRF_MODEM_LINK_BINARY)
+if(CONFIG_NRF_MODEM_LINK_BINARY_CELLULAR OR CONFIG_NRF_MODEM_LINK_BINARY_DECT_PHY)
 
   string(REGEX REPLACE "_[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]$" "" arch_soc_dir ${CONFIG_SOC})
 
@@ -24,7 +24,11 @@ if(CONFIG_NRF_MODEM_LINK_BINARY)
     set(float_dir soft-float)
   endif()
 
-  set(NRF_MODEM_LIB_DIR "lib/${arch_soc_dir}/${float_dir}")
+  if(CONFIG_NRF_MODEM_LINK_BINARY_CELLULAR)
+    set(NRF_MODEM_LIB_DIR "lib/cellular/${arch_soc_dir}/${float_dir}")
+  elseif(CONFIG_NRF_MODEM_LINK_BINARY_DECT_PHY)
+    set(NRF_MODEM_LIB_DIR "lib/dect_phy/${arch_soc_dir}/${float_dir}")
+  endif()
 
   if(CONFIG_NRF_MODEM_LOG)
     zephyr_library_import(modem ${CMAKE_CURRENT_SOURCE_DIR}/${NRF_MODEM_LIB_DIR}/libmodem_log.a)
@@ -33,5 +37,7 @@ if(CONFIG_NRF_MODEM_LINK_BINARY)
   endif()
 
   zephyr_include_directories(include)
+
+  target_sources(app PRIVATE shmem.c)
 
 endif()
