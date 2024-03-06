@@ -309,8 +309,7 @@ The following snippet shows how to set up and use a custom AT command:
 	}
 
 .. note::
-   The filter uses the callback of the first match found in the filter list.
-   Hence, make sure to keep the filters accurately or order them accordingly.
+   The filter uses the callback of the longest match found in the filter list.
 
 Receiving AT notifications
 **************************
