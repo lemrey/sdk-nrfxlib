@@ -25,11 +25,9 @@ if(CONFIG_NRF_MODEM_LINK_BINARY_CELLULAR OR CONFIG_NRF_MODEM_LINK_BINARY_DECT_PH
   endif()
 
   if(CONFIG_NRF_MODEM_LINK_BINARY_CELLULAR)
-    zephyr_include_directories(cellular/include)
-    set(NRF_MODEM_LIB_DIR "cellular/lib/${arch_soc_dir}/${float_dir}")
+    set(NRF_MODEM_LIB_DIR "lib/cellular/${arch_soc_dir}/${float_dir}")
   elseif(CONFIG_NRF_MODEM_LINK_BINARY_DECT_PHY)
-    zephyr_include_directories(dect_phy/include)
-    set(NRF_MODEM_LIB_DIR "dect_phy/lib/${arch_soc_dir}/${float_dir}")
+    set(NRF_MODEM_LIB_DIR "lib/dect_phy/${arch_soc_dir}/${float_dir}")
   endif()
 
   if(CONFIG_NRF_MODEM_LOG)
@@ -37,5 +35,7 @@ if(CONFIG_NRF_MODEM_LINK_BINARY_CELLULAR OR CONFIG_NRF_MODEM_LINK_BINARY_DECT_PH
   else()
     zephyr_library_import(modem ${CMAKE_CURRENT_SOURCE_DIR}/${NRF_MODEM_LIB_DIR}/libmodem.a)
   endif()
+
+  zephyr_include_directories(include)
 
 endif()

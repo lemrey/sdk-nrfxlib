@@ -80,7 +80,9 @@ extern "C" {
  *
  *  @note: The size of this area is build constant.
  */
-#define NRF_MODEM_SHMEM_CTRL_SIZE 0x4e8
+#define NRF_MODEM_CELLULAR_SHMEM_CTRL_SIZE 0x4e8
+#define NRF_MODEM_DECT_PHY_SHMEM_CTRL_SIZE 0x728
+
 
 /** @brief Shared memory configuration in normal operation mode. */
 struct nrf_modem_shmem_cfg {
