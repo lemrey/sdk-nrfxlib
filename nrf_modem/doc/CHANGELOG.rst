@@ -9,6 +9,16 @@ Changelog
 
 All notable changes to this project are documented in this file.
 
+nrf_modem
+*********
+
+DECT NR+
+========
+
+* Added:
+
+  * A field to control band 4 support for nRF9151 devices.
+
 nrf_modem 2.8.0
 ***************
 
